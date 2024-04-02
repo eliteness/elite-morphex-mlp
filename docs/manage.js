@@ -175,8 +175,8 @@ function notice(c) {
 
 
 async function dexstats() {
-	_BASE = new ethers.Contract(BASE, ["function balanceOf(address) public view returns(uint)","function totalSupply() public view returns(uint)"],provider);
-	_WRAP = new ethers.Contract(WRAP, ["function balanceOf(address) public view returns(uint)","function totalSupply() public view returns(uint)"],provider);
+	_BASE = new ethers.Contract(BASE, [LPABI],provider);
+	_WRAP = new ethers.Contract(WRAP, [LPABI],provider);
 	_ds = await Promise.all([
 		_BASE.totalSupply(),
 		_WRAP.totalSupply(),
@@ -190,8 +190,8 @@ async function dexstats() {
 }
 
 async function gubs() {
-	_BASE = new ethers.Contract(BASE, ["function balanceOf(address) public view returns(uint)","function totalSupply() public view returns(uint)"],signer);
-	_WRAP = new ethers.Contract(WRAP, ["function balanceOf(address) public view returns(uint)","function totalSupply() public view returns(uint)"],signer);
+	_BASE = new ethers.Contract(BASE, [LPABI],signer);
+	_WRAP = new ethers.Contract(WRAP, [LPABI],signer);
 
 	_ubs = await Promise.all([
 		_BASE.balanceOf(window.ethereum.selectedAddress),
@@ -201,23 +201,57 @@ async function gubs() {
 	$("ub-redeem").innerHTML = (Number(_ubs[1])/1e18).toLocaleString(undefined,{maximumFractionDigits:18});
 }
 
+LPABI = ["function balanceOf(address) public view returns(uint)","function allowance(address,address) public view returns(uint)","function totalSupply() public view returns(uint)"]
+
 async function quote() {
 	return;
 }
 
 async function mint() {
+	_BASE = new ethers.Contract(BASE, [LPABI], signer);
+	_WRAP = new ethers.Contract(WRAP, [LPABI], signer);
 	_SMART_MANAGER = new ethers.Contract(SMART_MANAGER, ["function deposit(uint)","function withdraw(uint)"],signer);
+
 	_oamt = $("man-inp-mint").value;
-	if(!isFinite(_oamt)){notice(`Invalid ${BASE_NAME} amount!`); return;}
+	if(!isFinite(_oamt) || am<1/1e18){notice(`Invalid ${BASE_NAME} amount!`); return;}
 	_oamt = BigInt(_oamt * 1e18)
 
+	al = await Promise.all([
+		_BASE.allowance(window.ethereum.selectedAddress, SMART_MANAGER),
+		_BASE.balanceOf(window.ethereum.selectedAddress)
+	]);
+
+	if(Number(_oamt)>Number(al[1])) {notice(`<h2>Insufficient Balance!</h2><h3>Desired Amount:</h3>${_oamt/1e18}<br><h3>Actual Balance:</h3>${al[1]/1e18}<br><br><b>Please reduce the amount and retry again, or accumulate some more ${BASE_NAME}.`);}
+
+	if(Number(_oamt)>Number(al[0])){
+		notice(`
+			<h3>Approval required</h3>
+			Please grant ${BASE_NAME} allowance.<br><br>
+			<h4><u><i>Confirm this transaction in your wallet!</i></u></h4>
+		`);
+		let _tr = await _BASE.approve(SMART_MANAGER,_oamt);
+		console.log(_tr);
+		notice(`
+			<h3>Submitting Approval Transaction!</h3>
+			<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
+		`);
+		_tw = await _tr.wait()
+		console.log(_tw)
+		notice(`
+			<h3>Approval Completed!</h3>
+			<br>Spending rights of ${_oamt/1e18} ${BASE_NAME} granted.<br>
+			<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
+			<br><br>
+			Please confirm the next step with your wallet provider now.
+		`);
+	}
 
 	notice(`
 		<h3>Order Summary</h3>
 		<b>Minting ${WRAP_NAME}</b><br>
 
-		<img style='height:20px;position:relative;top:4px' src="${NATIVE_LOGO}"> ${BASE_NAME} to Deposit: <b>${fornum(_oamt,18)}</b><br>
-		<img style='height:20px;position:relative;top:4px' src="${SWTOKEN_LOGO}"> ${WRAP_NAME} Expected: <b>${fornum(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${BASE_NAME} to Deposit: <b>${fornum(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Expected: <b>${fornum(_oamt,18)}</b><br>
 
 		<h4><u><i>Please Confirm this transaction in your wallet!</i></u></h4>
 	`);
@@ -226,8 +260,8 @@ async function mint() {
 	notice(`
 		<h3>Order Submitted!</h3>
 		<br><h4>Minting ${WRAP_NAME}</h4>
-		<img style='height:20px;position:relative;top:4px' src="${NATIVE_LOGO}"> ${BASE_NAME} Depositing: <b>${fornum(_oamt,18)}</b><br>
-		<img style='height:20px;position:relative;top:4px' src="${SWTOKEN_LOGO}"> ${WRAP_NAME} Expecting: <b>${fornum(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${BASE_NAME} Depositing: <b>${fornum(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Expecting: <b>${fornum(_oamt,18)}</b><br>
 		<br>
 		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
 	`);
@@ -235,8 +269,8 @@ async function mint() {
 	console.log(_tw)
 	notice(`
 		<h3>Order Completed!</h3>
-		<img style='height:20px;position:relative;top:4px' src="${NATIVE_LOGO}"> ${BASE_NAME} Deposited: <b>${fornum(_oamt,18)}</b><br>
-		<img style='height:20px;position:relative;top:4px' src="${SWTOKEN_LOGO}"> ${WRAP_NAME} Received: <b>${fornum(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${BASE_NAME} Deposited: <b>${fornum(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Received: <b>${fornum(_oamt,18)}</b><br>
 		<br><br>
 		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
 	`);
@@ -249,13 +283,42 @@ async function redeem() {
 	if(!isFinite(_oamt)){notice(`Invalid ${WRAP_NAME} amount!`); return;}
 	_oamt = BigInt(_oamt * 1e18)
 
+	al = await Promise.all([
+		_BASE.allowance(window.ethereum.selectedAddress, SMART_MANAGER),
+		_BASE.balanceOf(window.ethereum.selectedAddress)
+	]);
+
+	if(Number(_oamt)>Number(al[1])) {notice(`<h2>Insufficient Balance!</h2><h3>Desired Amount:</h3>${_oamt/1e18}<br><h3>Actual Balance:</h3>${al[1]/1e18}<br><br><b>Please reduce the amount and retry again, or accumulate some more ${WRAP_NAME}.`);}
+
+	if(Number(_oamt)>Number(al[0])){
+		notice(`
+			<h3>Approval required</h3>
+			Please grant ${BASE_NAME} allowance.<br><br>
+			<h4><u><i>Confirm this transaction in your wallet!</i></u></h4>
+		`);
+		let _tr = await _BASE.approve(SMART_MANAGER,_oamt);
+		console.log(_tr);
+		notice(`
+			<h3>Submitting Approval Transaction!</h3>
+			<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
+		`);
+		_tw = await _tr.wait()
+		console.log(_tw)
+		notice(`
+			<h3>Approval Completed!</h3>
+			<br>Spending rights of ${_oamt/1e18} ${WRAP_NAME} granted.<br>
+			<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
+			<br><br>
+			Please confirm the next step with your wallet provider now.
+		`);
+	}
 
 	notice(`
 		<h3>Order Summary</h3>
 		<b>Redeeming ${WRAP_NAME}</b><br>
 
-		<img style='height:20px;position:relative;top:4px' src="${NATIVE_LOGO}"> ${WRAP_NAME} to Redeem: <b>${fornum(_oamt,18)}</b><br>
-		<img style='height:20px;position:relative;top:4px' src="${SWTOKEN_LOGO}"> ${BASE_NAME} Expected: <b>${fornum(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} to Redeem: <b>${fornum(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${BASE_NAME} Expected: <b>${fornum(_oamt,18)}</b><br>
 
 		<h4><u><i>Please Confirm this transaction in your wallet!</i></u></h4>
 	`);
@@ -264,8 +327,8 @@ async function redeem() {
 	notice(`
 		<h3>Order Submitted!</h3>
 		<br><h4>Minting ${WRAP_NAME}</h4>
-		<img style='height:20px;position:relative;top:4px' src="${NATIVE_LOGO}"> ${WRAP_NAME} Redeeming: <b>${fornum(_oamt,18)}</b><br>
-		<img style='height:20px;position:relative;top:4px' src="${SWTOKEN_LOGO}"> ${BASE_NAME} Expecting: <b>${fornum(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Redeeming: <b>${fornum(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${BASE_NAME} Expecting: <b>${fornum(_oamt,18)}</b><br>
 		<br>
 		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
 	`);
@@ -273,8 +336,8 @@ async function redeem() {
 	console.log(_tw)
 	notice(`
 		<h3>Order Completed!</h3>
-		<img style='height:20px;position:relative;top:4px' src="${NATIVE_LOGO}"> ${WRAP_NAME} Redeemed: <b>${fornum(_oamt,18)}</b><br>
-		<img style='height:20px;position:relative;top:4px' src="${SWTOKEN_LOGO}"> ${BASE_NAME} Received: <b>${fornum(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Redeemed: <b>${fornum(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${BASE_NAME} Received: <b>${fornum(_oamt,18)}</b><br>
 		<br><br>
 		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
 	`);
