@@ -284,7 +284,7 @@ async function redeem() {
 	_oamt = BigInt(_oamt * 1e18)
 
 	al = await Promise.all([
-		_WRAP.allowance(window.ethereum.selectedAddress, SMART_MANAGER),
+		_WRAP.allowance(window.ethereum.selectedAddress, _MANAGER),
 		_WRAP.balanceOf(window.ethereum.selectedAddress)
 	]);
 
@@ -293,10 +293,10 @@ async function redeem() {
 	if(Number(_oamt)>Number(al[0])){
 		notice(`
 			<h3>Approval required</h3>
-			Please grant ${BASE_NAME} allowance.<br><br>
+			Please grant ${WRAP_NAME} allowance.<br><br>
 			<h4><u><i>Confirm this transaction in your wallet!</i></u></h4>
 		`);
-		let _tr = await _BASE.approve(SMART_MANAGER,_oamt);
+		let _tr = await _BASE.approve(_MANAGER,_oamt);
 		console.log(_tr);
 		notice(`
 			<h3>Submitting Approval Transaction!</h3>
@@ -322,7 +322,7 @@ async function redeem() {
 
 		<h4><u><i>Please Confirm this transaction in your wallet!</i></u></h4>
 	`);
-	let _tr = await _SMART_MANAGER.withdraw(_oamt);
+	let _tr = await _MANAGER.withdraw(_oamt);
 	console.log(_tr);
 	notice(`
 		<h3>Order Submitted!</h3>

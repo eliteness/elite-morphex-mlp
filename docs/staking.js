@@ -273,7 +273,7 @@ async function mint() {
 }
 
 async function redeem() {
-	_MANAGER = new ethers.Contract(MANAGER, ["function balanceOf(address) public view returns(uint)","function deposit(uint)","function withdraw(uint)"],signer);
+	_FARM = new ethers.Contract(FARM, ["function deposit(uint)","function withdraw(uint)"],signer);
 	_oamt = $("man-inp-redeem").value;
 	if(!isFinite(_oamt)){notice(`Invalid ${WRAP_NAME} amount!`); return;}
 	_oamt = BigInt(_oamt * 1e18)
@@ -293,7 +293,7 @@ async function redeem() {
 
 		<h4><u><i>Please Confirm this transaction in your wallet!</i></u></h4>
 	`);
-	let _tr = await _SMART_MANAGER.withdraw(_oamt);
+	let _tr = await _FARM.withdraw(_oamt);
 	console.log(_tr);
 	notice(`
 		<h3>Order Submitted!</h3>
