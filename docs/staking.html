@@ -58,25 +58,23 @@
 			<br>
 			<div class="input-amount-els">
 				<div onclick="pairSelectionMenu()">
-					<br><img class="bigthumb" id="logo-sold" src="https://ftm.guru/icons/morphexmlp.png"/>
+					<br><img class="bigthumb" id="logo-sold" src="https://ftm.guru/icons/eliteMorphexMLP.png"/>
 				</div>
 				<div class="amount-area">
 					<div class="prefill-num">
-						<span id="ub-mint">0.000000</span> MLP available
-						<br><a href="https://morphex.trade/liquidity" target="_blank" style="font-family:light;">Need more?</a>
+						<span id="ub-mint">0.000000</span> available
+						<br><a href="./" target="_blank" style="font-family:light;">Need more?</a>
 					</div>
 					<div class="amount-sold">
-						<input value="1" placeholder="Mint Amount" id="man-inp-mint">
+						<input value="1" placeholder="Staked Amount" id="man-inp-mint">
 					</div>
 				</div>
 			</div>
 		</div>
 		<div style="margin-top: -25px;" align="center">
-			<button class="submit equal-gradient" onclick="mint()"><span id="man-mint">Mint eliteMorphexMLP</span></button>
+			<button class="submit equal-gradient" onclick="mint()"><span id="man-mint">Stake eliteMorphexMLP</span></button>
 		</div>
 		<div align="center" style="font-family:">
-			<br><br>
-			eliteMorphexMLP is minted & redeemed 1:1 with MLP
 			<br><br>
 		</div>
 		<div class="input-amount">
@@ -87,7 +85,7 @@
 				</div>
 				<div class="amount-area">
 					<div class="prefill-num">
-						<span id="ub-redeem">0.000000</span> in wallet
+						<span id="ub-redeem">0.000000</span> staked
 					</div>
 					<div class="amount-sold">
 						<input value="1" placeholder="Redeem Amt" id="man-inp-redeem">
@@ -96,14 +94,14 @@
 			</div>
 		</div>
 		<div style="margin-top: -25px;" align="center">
-			<button class="submit equal-gradient" onclick="redeem()"><span id="man-redeem">Redeem to MLP</span></button>
+			<button class="submit equal-gradient" onclick="redeem()"><span id="man-redeem">Unstake eliteMorphexMLP</span></button>
 			<br><br>
 		</div>
 	</div>
 	<div class="analytics" style="">
 		<a href="https://morphex.trade/liquidity" target="_blank">Get MLP</a>
-		<a class="equal-gradient-white">Manage</a>
-		<a href="./staking">Staking</a>
+		<a href="./">Manage</a>
+		<a class="equal-gradient-white">Staking</a>
 		<a href="">Rewards</a>
 		<a href="https://ftm.guru/docs/elitemorphexmlp" target="_blank">Docs</a>
 	</div>
@@ -160,7 +158,7 @@
 
 </body>
 <script src="https://ftm.guru/ethers-5.2.umd.min.js"></script>
-<script src="manage.js"></script>
+<script src="staking.js"></script>
 <script>
 RPC_URL = "https://rpc.ankr.com/fantom";
 CHAINID = 250;
@@ -185,6 +183,8 @@ WRAP_LOGO = "https://ftm.guru/icons/eliteMorphexMLP.png";
 
 MANAGER = "0x0b5f2839513D64FFD034a928f763800974cacaba";
 SMART_MANAGER = "0x0b5f2839513D64FFD034a928f763800974cacaba";
+
+FARM = "0x915de7293e9f19ab50c33599caba64ed0d6f83f8";
 </script>
 <script>
 

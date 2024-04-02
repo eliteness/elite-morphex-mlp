@@ -210,93 +210,26 @@ async function quote() {
 async function mint() {
 	_BASE = new ethers.Contract(BASE, LPABI, signer);
 	_WRAP = new ethers.Contract(WRAP, LPABI, signer);
-	_SMART_MANAGER = new ethers.Contract(SMART_MANAGER, ["function deposit(uint)","function withdraw(uint)"],signer);
+	_FARM = new ethers.Contract(FARM, ["function deposit(uint)","function withdraw(uint)"],signer);
 
 	_oamt = $("man-inp-mint").value;
 	if(!isFinite(_oamt) || _oamt<1/1e18){notice(`Invalid ${BASE_NAME} amount!`); return;}
 	_oamt = BigInt(_oamt * 1e18)
 
 	al = await Promise.all([
-		_BASE.allowance(window.ethereum.selectedAddress, SMART_MANAGER),
-		_BASE.balanceOf(window.ethereum.selectedAddress)
-	]);
-
-	if(Number(_oamt)>Number(al[1])) {notice(`<h2>Insufficient Balance!</h2><h3>Desired Amount:</h3>${_oamt/1e18}<br><h3>Actual Balance:</h3>${al[1]/1e18}<br><br><b>Please reduce the amount and retry again, or accumulate some more ${BASE_NAME}.`);}
-
-	if(Number(_oamt)>Number(al[0])){
-		notice(`
-			<h3>Approval required</h3>
-			Please grant ${BASE_NAME} allowance.<br><br>
-			<h4><u><i>Confirm this transaction in your wallet!</i></u></h4>
-		`);
-		let _tr = await _BASE.approve(SMART_MANAGER,_oamt);
-		console.log(_tr);
-		notice(`
-			<h3>Submitting Approval Transaction!</h3>
-			<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
-		`);
-		_tw = await _tr.wait()
-		console.log(_tw)
-		notice(`
-			<h3>Approval Completed!</h3>
-			<br>Spending rights of ${Number(_oamt)/1e18} ${BASE_NAME} granted.<br>
-			<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
-			<br><br>
-			Please confirm the next step with your wallet provider now.
-		`);
-	}
-
-	notice(`
-		<h3>Order Summary</h3>
-		<b>Minting ${WRAP_NAME}</b><br>
-
-		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${BASE_NAME} to Deposit: <b>${fornum(_oamt,18)}</b><br>
-		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Expected: <b>${fornum(_oamt,18)}</b><br>
-
-		<h4><u><i>Please Confirm this transaction in your wallet!</i></u></h4>
-	`);
-	let _tr = await _SMART_MANAGER.deposit(_oamt);
-	console.log(_tr);
-	notice(`
-		<h3>Order Submitted!</h3>
-		<br><h4>Minting ${WRAP_NAME}</h4>
-		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${BASE_NAME} Depositing: <b>${fornum(_oamt,18)}</b><br>
-		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Expecting: <b>${fornum(_oamt,18)}</b><br>
-		<br>
-		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
-	`);
-	_tw = await _tr.wait();
-	console.log(_tw)
-	notice(`
-		<h3>Order Completed!</h3>
-		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${BASE_NAME} Deposited: <b>${fornum(_oamt,18)}</b><br>
-		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Received: <b>${fornum(_oamt,18)}</b><br>
-		<br><br>
-		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
-	`);
-	gubs();
-}
-
-async function redeem() {
-	_MANAGER = new ethers.Contract(MANAGER, ["function deposit(uint)","function withdraw(uint)"],signer);
-	_oamt = $("man-inp-redeem").value;
-	if(!isFinite(_oamt)){notice(`Invalid ${WRAP_NAME} amount!`); return;}
-	_oamt = BigInt(_oamt * 1e18)
-
-	al = await Promise.all([
-		_WRAP.allowance(window.ethereum.selectedAddress, SMART_MANAGER),
+		_WRAP.allowance(window.ethereum.selectedAddress, FARM),
 		_WRAP.balanceOf(window.ethereum.selectedAddress)
 	]);
 
-	if(Number(_oamt)>Number(al[1])) {notice(`<h2>Insufficient Balance!</h2><h3>Desired Amount:</h3>${Number(_oamt)/1e18}<br><h3>Actual Balance:</h3>${al[1]/1e18}<br><br><b>Please reduce the amount and retry again, or accumulate some more ${WRAP_NAME}.`);}
+	if(Number(_oamt)>Number(al[1])) {notice(`<h2>Insufficient Balance!</h2><h3>Desired Amount:</h3>${_oamt/1e18}<br><h3>Actual Balance:</h3>${al[1]/1e18}<br><br><b>Please reduce the amount and retry again, or accumulate some more ${WRAP_NAME}.`);}
 
 	if(Number(_oamt)>Number(al[0])){
 		notice(`
 			<h3>Approval required</h3>
-			Please grant ${BASE_NAME} allowance.<br><br>
+			Please grant ${WRAP_NAME} allowance.<br><br>
 			<h4><u><i>Confirm this transaction in your wallet!</i></u></h4>
 		`);
-		let _tr = await _BASE.approve(SMART_MANAGER,_oamt);
+		let _tr = await _WRAP.approve(FARM,_oamt);
 		console.log(_tr);
 		notice(`
 			<h3>Submitting Approval Transaction!</h3>
@@ -315,6 +248,44 @@ async function redeem() {
 
 	notice(`
 		<h3>Order Summary</h3>
+		<b>Staking ${WRAP_NAME}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} to Stake: <b>${fornum(_oamt,18)}</b><br>
+		<h4><u><i>Please Confirm this transaction in your wallet!</i></u></h4>
+	`);
+	let _tr = await FARM.deposit(_oamt);
+	console.log(_tr);
+	notice(`
+		<h3>Order Submitted!</h3>
+		<br><h4>Staking ${WRAP_NAME}</h4>
+		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Staking: <b>${fornum(_oamt,18)}</b><br>
+		<br>
+		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
+	`);
+	_tw = await _tr.wait();
+	console.log(_tw)
+	notice(`
+		<h3>Order Completed!</h3>
+		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${WRAP_NAME} Staked: <b>${fornum(_oamt,18)}</b><br>
+		<br><br>
+		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
+	`);
+	gubs();
+}
+
+async function redeem() {
+	_MANAGER = new ethers.Contract(MANAGER, ["function balanceOf(address) public view returns(uint)","function deposit(uint)","function withdraw(uint)"],signer);
+	_oamt = $("man-inp-redeem").value;
+	if(!isFinite(_oamt)){notice(`Invalid ${WRAP_NAME} amount!`); return;}
+	_oamt = BigInt(_oamt * 1e18)
+
+	al = await Promise.all([
+		_FARM.balanceOf(window.ethereum.selectedAddress)
+	]);
+
+	if(Number(_oamt)>Number(al[1])) {notice(`<h2>Insufficient Staked Balance!</h2><h3>Desired Amount:</h3>${Number(_oamt)/1e18}<br><h3>Actual Staked Balance:</h3>${al[1]/1e18}<br><br><b>Please reduce the amount and retry again, or Stake some more ${WRAP_NAME}.`);}
+
+	notice(`
+		<h3>Order Summary</h3>
 		<b>Redeeming ${WRAP_NAME}</b><br>
 
 		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} to Redeem: <b>${fornum(_oamt,18)}</b><br>
@@ -326,9 +297,8 @@ async function redeem() {
 	console.log(_tr);
 	notice(`
 		<h3>Order Submitted!</h3>
-		<br><h4>Redeeming ${WRAP_NAME}</h4>
-		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Redeeming: <b>${fornum(_oamt,18)}</b><br>
-		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${BASE_NAME} Expecting: <b>${fornum(_oamt,18)}</b><br>
+		<br><h4>Unstaking ${WRAP_NAME}</h4>
+		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Unstaking: <b>${fornum(_oamt,18)}</b><br>
 		<br>
 		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
 	`);
@@ -336,8 +306,7 @@ async function redeem() {
 	console.log(_tw)
 	notice(`
 		<h3>Order Completed!</h3>
-		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Redeemed: <b>${fornum(_oamt,18)}</b><br>
-		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${BASE_NAME} Received: <b>${fornum(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Unstaked: <b>${fornum(_oamt,18)}</b><br>
 		<br><br>
 		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
 	`);
