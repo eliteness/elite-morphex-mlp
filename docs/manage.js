@@ -175,8 +175,8 @@ function notice(c) {
 
 
 async function dexstats() {
-	_BASE = new ethers.Contract(BASE, [LPABI],provider);
-	_WRAP = new ethers.Contract(WRAP, [LPABI],provider);
+	_BASE = new ethers.Contract(BASE, LPABI, provider);
+	_WRAP = new ethers.Contract(WRAP, LPABI, provider);
 	_ds = await Promise.all([
 		_BASE.totalSupply(),
 		_WRAP.totalSupply(),
@@ -190,8 +190,8 @@ async function dexstats() {
 }
 
 async function gubs() {
-	_BASE = new ethers.Contract(BASE, [LPABI],signer);
-	_WRAP = new ethers.Contract(WRAP, [LPABI],signer);
+	_BASE = new ethers.Contract(BASE, LPABI, signer);
+	_WRAP = new ethers.Contract(WRAP, LPABI, signer);
 
 	_ubs = await Promise.all([
 		_BASE.balanceOf(window.ethereum.selectedAddress),
@@ -208,8 +208,8 @@ async function quote() {
 }
 
 async function mint() {
-	_BASE = new ethers.Contract(BASE, [LPABI], signer);
-	_WRAP = new ethers.Contract(WRAP, [LPABI], signer);
+	_BASE = new ethers.Contract(BASE, LPABI, signer);
+	_WRAP = new ethers.Contract(WRAP, LPABI, signer);
 	_SMART_MANAGER = new ethers.Contract(SMART_MANAGER, ["function deposit(uint)","function withdraw(uint)"],signer);
 
 	_oamt = $("man-inp-mint").value;
