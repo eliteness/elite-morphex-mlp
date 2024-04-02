@@ -201,7 +201,7 @@ async function gubs() {
 	$("ub-redeem").innerHTML = (Number(_ubs[1])/1e18).toLocaleString(undefined,{maximumFractionDigits:18});
 }
 
-LPABI = ["function balanceOf(address) public view returns(uint)","function approve(address,uint)","function allowance(address,address) public view returns(uint)","function totalSupply() public view returns(uint)"]
+LPABI = ["function balanceOf(address) public view returns(uint)","function approve(address,uint)","function allowance(address,address) public view returns(uint)","function totalSupply() public view returns(uint)","function deposit(uint)","function withdraw(uint)"]
 
 async function quote() {
 	return;
@@ -210,7 +210,7 @@ async function quote() {
 async function mint() {
 	_BASE = new ethers.Contract(BASE, LPABI, signer);
 	_WRAP = new ethers.Contract(WRAP, LPABI, signer);
-	_SMART_MANAGER = new ethers.Contract(SMART_MANAGER, ["function deposit(uint)","function withdraw(uint)"],signer);
+	_SMART_MANAGER = new ethers.Contract(SMART_MANAGER, LPABI, signer);
 
 	_oamt = $("man-inp-mint").value;
 	if(!isFinite(_oamt) || _oamt<1/1e18){notice(`Invalid ${BASE_NAME} amount!`); return;}
@@ -278,13 +278,13 @@ async function mint() {
 }
 
 async function redeem() {
-	_MANAGER = new ethers.Contract(MANAGER, ["function deposit(uint)","function withdraw(uint)"],signer);
+	_MANAGER = new ethers.Contract(MANAGER, LPABI, signer);
 	_oamt = $("man-inp-redeem").value;
 	if(!isFinite(_oamt)){notice(`Invalid ${WRAP_NAME} amount!`); return;}
 	_oamt = BigInt(_oamt * 1e18)
 
 	al = await Promise.all([
-		_WRAP.allowance(window.ethereum.selectedAddress, _MANAGER),
+		_WRAP.allowance(window.ethereum.selectedAddress, MANAGER),
 		_WRAP.balanceOf(window.ethereum.selectedAddress)
 	]);
 
@@ -296,7 +296,7 @@ async function redeem() {
 			Please grant ${WRAP_NAME} allowance.<br><br>
 			<h4><u><i>Confirm this transaction in your wallet!</i></u></h4>
 		`);
-		let _tr = await _BASE.approve(_MANAGER,_oamt);
+		let _tr = await _BASE.approve(MANAGER,_oamt);
 		console.log(_tr);
 		notice(`
 			<h3>Submitting Approval Transaction!</h3>

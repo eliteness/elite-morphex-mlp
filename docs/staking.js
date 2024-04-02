@@ -190,18 +190,18 @@ async function dexstats() {
 }
 
 async function gubs() {
-	_BASE = new ethers.Contract(BASE, LPABI, signer);
+	_FARM = new ethers.Contract(BASE, LPABI, signer);
 	_WRAP = new ethers.Contract(WRAP, LPABI, signer);
 
 	_ubs = await Promise.all([
-		_BASE.balanceOf(window.ethereum.selectedAddress),
+		_FARM.balanceOf(window.ethereum.selectedAddress),
 		_WRAP.balanceOf(window.ethereum.selectedAddress)
 	]);
 	$("ub-mint").innerHTML = (Number(_ubs[0])/1e18).toLocaleString(undefined,{maximumFractionDigits:18});
 	$("ub-redeem").innerHTML = (Number(_ubs[1])/1e18).toLocaleString(undefined,{maximumFractionDigits:18});
 }
 
-LPABI = ["function balanceOf(address) public view returns(uint)","function approve(address,uint)","function allowance(address,address) public view returns(uint)","function totalSupply() public view returns(uint)"]
+LPABI = ["function balanceOf(address) public view returns(uint)","function approve(address,uint)","function allowance(address,address) public view returns(uint)","function totalSupply() public view returns(uint)","function deposit(uint)","function withdraw(uint)"]
 
 async function quote() {
 	return;
@@ -210,7 +210,7 @@ async function quote() {
 async function mint() {
 	_BASE = new ethers.Contract(BASE, LPABI, signer);
 	_WRAP = new ethers.Contract(WRAP, LPABI, signer);
-	_FARM = new ethers.Contract(FARM, ["function deposit(uint)","function withdraw(uint)"],signer);
+	_FARM = new ethers.Contract(FARM, LPABI, signer);
 
 	_oamt = $("man-inp-mint").value;
 	if(!isFinite(_oamt) || _oamt<1/1e18){notice(`Invalid ${BASE_NAME} amount!`); return;}
@@ -252,7 +252,7 @@ async function mint() {
 		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} to Stake: <b>${fornum(_oamt,18)}</b><br>
 		<h4><u><i>Please Confirm this transaction in your wallet!</i></u></h4>
 	`);
-	let _tr = await FARM.deposit(_oamt);
+	let _tr = await _FARM.deposit(_oamt);
 	console.log(_tr);
 	notice(`
 		<h3>Order Submitted!</h3>
@@ -273,7 +273,7 @@ async function mint() {
 }
 
 async function redeem() {
-	_FARM = new ethers.Contract(FARM, ["function deposit(uint)","function withdraw(uint)"],signer);
+	_FARM = new ethers.Contract(FARM, LPABI,signer);
 	_oamt = $("man-inp-redeem").value;
 	if(!isFinite(_oamt)){notice(`Invalid ${WRAP_NAME} amount!`); return;}
 	_oamt = BigInt(_oamt * 1e18)
