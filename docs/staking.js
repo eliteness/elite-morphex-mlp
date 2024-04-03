@@ -172,28 +172,39 @@ function notice(c) {
 	$("content1").innerHTML = c
 }
 
-LPABI = ["function balanceOf(address) public view returns(uint)","function approve(address,uint)","function allowance(address,address) public view returns(uint)","function earned(address,address) public view returns(uint)","function totalSupply() public view returns(uint)","function deposit(uint)","function withdraw(uint)"]
+LPABI = ["function balanceOf(address) public view returns(uint)","function getAssetPrice(address) public view returns(uint)","function approve(address,uint)","function allowance(address,address) public view returns(uint)","function earned(address,address) public view returns(uint)","function earnings(address,address) public view returns(uint)","function tvl() public view returns(uint)","function apr() public view returns(uint)","function totalSupply() public view returns(uint)","function deposit(uint)","function withdraw(uint)"]
 
 
 async function dexstats() {
 	_BASE = new ethers.Contract(BASE, LPABI, provider);
 	_WRAP = new ethers.Contract(WRAP, LPABI, provider);
+	_FARM = new ethers.Contract(FARM, LPABI, provider);
 	_ds = await Promise.all([
 		_BASE.totalSupply(),
 		_WRAP.totalSupply(),
+		_FARM.tvl(),
+		_FARM.apr(),
 	])
+
+
 	$("tvl-usd").innerHTML = `
-		Total Supply: <b>${(Number(_ds[1])/1e18).toLocaleString(undefined,{maximumFractionDigits:0})}</b> <img src="https://ftm.guru/icons/eliteMorphexMLP.png" style="width:20px;vertical-align:middle"/>
-		<br>
-		Dominance: <b>${((Number(_ds[1])/1e18)/(Number(_ds[0])/1e18)*100).toLocaleString(undefined,{maximumFractionDigits:4})}</b>%
+		<i>
+			Current Supply: <b>${(Number(_ds[1])/1e18).toLocaleString(undefined,{maximumFractionDigits:0})}</b> <img src="https://ftm.guru/icons/eliteMorphexMLP.png" style="width:20px;vertical-align:middle"/>
+			<br>
+			Market Cap: $<b>${(Number(_ds[1])/1e18*Number(_ds[2])/1e18).toLocaleString(undefined,{maximumFractionDigits:2})}</b>
+			<br>
+			Dominance: <b>${((Number(_ds[1])/1e18)/(Number(_ds[0])/1e18)*100).toLocaleString(undefined,{maximumFractionDigits:4})}</b>%
+		</i>
 	`;
+
+	$("farm-tvl").innerHTML = (Number(_ds[2])/1e18).toLocaleString(undefined,{maximumFractionDigits:0});
+	$("farm-apr").innerHTML = (Number(_ds[3])/1e18).toLocaleString(undefined,{maximumFractionDigits:2});
 
 }
 
 async function gubs() {
 	_WRAP = new ethers.Contract(WRAP, LPABI, signer);
-
-	_FARM = new ethers.Contract(BASE, LPABI, signer);
+	_FARM = new ethers.Contract(FARM, LPABI, signer);
 	_ubs = await Promise.all([
 		_WRAP.balanceOf(window.ethereum.selectedAddress),
 		_FARM.balanceOf(window.ethereum.selectedAddress),
@@ -204,7 +215,7 @@ async function gubs() {
 	$("ub-unstake").innerHTML = (Number(_ubs[1])/1e18).toLocaleString(undefined,{maximumFractionDigits:18});
 	_claimable = (Number(_ubs[2])/1e18).toLocaleString(undefined,{maximumFractionDigits:18});
 	if( Number(_ubs[2]) > 0 ) $("farm-earn-claimable").value = _claimable;
-	$("farm-earn-total") = (Number(_ubs[3])/1e18).toLocaleString(undefined,{maximumFractionDigits:2});
+	$("farm-earn-total").innerHTML = (Number(_ubs[3])/1e18).toLocaleString(undefined,{maximumFractionDigits:2});
 }
 
 async function quote() {
@@ -325,7 +336,7 @@ async function claim() {
 
 	_earned = await _FARM.earned(TEARNED[0], window.ethereum.selectedAddress);
 
-	if(Number(_earned) == 0 ) {notice(`You dont have any pending rewards! Stake some more ${WRAP_NAME} to earn more!`); return;}
+	if(Number(_earned) == 0 ) {notice(`<h3>You dont have any pending rewards!</h3> Stake some ${WRAP_NAME} to earn more!`); return;}
 
 	notice(`
 		<h3>Order Summary</h3>

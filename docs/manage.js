@@ -173,18 +173,27 @@ function notice(c) {
 }
 
 
+LPABI = ["function balanceOf(address) public view returns(uint)","function getAssetPrice(address) public view returns(uint)","function approve(address,uint)","function allowance(address,address) public view returns(uint)","function earned(address,address) public view returns(uint)","function earnings(address,address) public view returns(uint)","function tvl() public view returns(uint)","function apr() public view returns(uint)","function totalSupply() public view returns(uint)","function deposit(uint)","function withdraw(uint)"]
 
 async function dexstats() {
 	_BASE = new ethers.Contract(BASE, LPABI, provider);
 	_WRAP = new ethers.Contract(WRAP, LPABI, provider);
+	_FARM = new ethers.Contract(FARM, LPABI, provider);
 	_ds = await Promise.all([
 		_BASE.totalSupply(),
 		_WRAP.totalSupply(),
+		_FARM.getAssetPrice(WRAP),
 	])
+
+
 	$("tvl-usd").innerHTML = `
-		Total Supply: <b>${(Number(_ds[1])/1e18).toLocaleString(undefined,{maximumFractionDigits:0})}</b> <img src="https://ftm.guru/icons/eliteMorphexMLP.png" style="width:20px;vertical-align:middle"/>
-		<br>
-		Dominance: <b>${((Number(_ds[1])/1e18)/(Number(_ds[0])/1e18)*100).toLocaleString(undefined,{maximumFractionDigits:4})}%</b>
+		<i>
+			Current Supply: <b>${(Number(_ds[1])/1e18).toLocaleString(undefined,{maximumFractionDigits:0})}</b> <img src="https://ftm.guru/icons/eliteMorphexMLP.png" style="width:20px;vertical-align:middle"/>
+			<br>
+			Market Cap: $<b>${(Number(_ds[1])/1e18*Number(_ds[2])/1e18).toLocaleString(undefined,{maximumFractionDigits:2})}</b>
+			<br>
+			Dominance: <b>${((Number(_ds[1])/1e18)/(Number(_ds[0])/1e18)*100).toLocaleString(undefined,{maximumFractionDigits:4})}</b>%
+		</i>
 	`;
 
 }
@@ -200,8 +209,6 @@ async function gubs() {
 	$("ub-mint").innerHTML = (Number(_ubs[0])/1e18).toLocaleString(undefined,{maximumFractionDigits:18});
 	$("ub-redeem").innerHTML = (Number(_ubs[1])/1e18).toLocaleString(undefined,{maximumFractionDigits:18});
 }
-
-LPABI = ["function balanceOf(address) public view returns(uint)","function approve(address,uint)","function allowance(address,address) public view returns(uint)","function totalSupply() public view returns(uint)","function deposit(uint)","function withdraw(uint)"]
 
 async function quote() {
 	return;
