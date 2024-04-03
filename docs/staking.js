@@ -330,6 +330,7 @@ async function redeem() {
 
 async function claim() {
 	_FARM = new ethers.Contract(FARM, LPABI,signer);
+	_VOTER = new ethers.Contract(VOTER, ["function claimRewards(address[],address[][])"],signer);
 	_oamt = $("man-inp-redeem").value;
 	if(!isFinite(_oamt)){notice(`Invalid ${WRAP_NAME} amount!`); return;}
 	_oamt = BigInt(_oamt * 1e18)
