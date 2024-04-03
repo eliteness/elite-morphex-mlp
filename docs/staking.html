@@ -62,7 +62,7 @@
 				</div>
 				<div class="amount-area">
 					<div class="prefill-num">
-						<span id="ub-mint">0.000000</span> available
+						<span id="ub-stake">0.000000</span> available
 						<br><a href="./" target="_blank" style="font-family:light;">Need more?</a>
 					</div>
 					<div class="amount-sold">
@@ -74,18 +74,35 @@
 		<div style="margin-top: -25px;" align="center">
 			<button class="submit equal-gradient" onclick="mint()"><span id="man-mint">Stake eliteMorphexMLP</span></button>
 		</div>
-		<div align="center" style="font-family:">
+		<div class="input-amount">
+			<br><br>
+			<div class="input-amount-els">
+				<div onclick="pairSelectionMenu()">
+					<img class="bigthumb" id="logo-sold" src="https://ftm.guru/icons/equal.png"/>
+				</div>
+				<div class="amount-area">
+					<div class="prefill-num">
+						You earned <span id="farm-earn-total">0</span> EQUAL so far!
+					</div>
+					<div class="amount-sold">
+						<input placeholder="no new rewards" id="farm-earn-claimable" disabled>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div style="margin-top: -25px;" align="center">
+			<button class="submit equal-gradient" onclick="claim()"><span id="man-redeem">Claim Rewards</span></button>
 			<br><br>
 		</div>
 		<div class="input-amount">
 			<br>
 			<div class="input-amount-els">
 				<div onclick="pairSelectionMenu()">
-					<img class="bigthumb" id="logo-sold" src="https://ftm.guru/icons/eliteMorphexMLP.png"/>
+					<img class="bigthumb" id="logo-sold" src="https://ftm.guru/icons/farmer.svg"/>
 				</div>
 				<div class="amount-area">
 					<div class="prefill-num">
-						<span id="ub-redeem">0.000000</span> staked
+						<span id="ub-unstake">0.000000</span> staked
 					</div>
 					<div class="amount-sold">
 						<input value="1" placeholder="Redeem Amt" id="man-inp-redeem">
@@ -184,7 +201,11 @@ WRAP_LOGO = "https://ftm.guru/icons/eliteMorphexMLP.png";
 MANAGER = "0x0b5f2839513D64FFD034a928f763800974cacaba";
 SMART_MANAGER = "0x0b5f2839513D64FFD034a928f763800974cacaba";
 
-FARM = "0x915de7293e9f19ab50c33599caba64ed0d6f83f8";
+FARM = "0xCe780431BDa4020403427E3416fb407edBdb21F5";
+TEARNED = ["0x3fd3a0c85b70754efc07ac9ac0cbbdce664865a6"];
+TEARNED_LOGO = ["https://ftm.guru/icons/equal.png"];
+TEARNED_NAME = ["EQUAL"];
+VOTER = "0xE3D1A117dF7DCaC2eB0AC8219341bAd92f18dAC1";
 </script>
 <script>
 

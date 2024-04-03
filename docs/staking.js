@@ -172,6 +172,7 @@ function notice(c) {
 	$("content1").innerHTML = c
 }
 
+LPABI = ["function balanceOf(address) public view returns(uint)","function approve(address,uint)","function allowance(address,address) public view returns(uint)","function earned(address,address) public view returns(uint)","function totalSupply() public view returns(uint)","function deposit(uint)","function withdraw(uint)"]
 
 
 async function dexstats() {
@@ -182,26 +183,29 @@ async function dexstats() {
 		_WRAP.totalSupply(),
 	])
 	$("tvl-usd").innerHTML = `
-		<b>${(Number(_ds[1])/1e18).toLocaleString(undefined,{maximumFractionDigits:2})} ${WRAP_NAME}</b>
+		Total Supply: <b>${(Number(_ds[1])/1e18).toLocaleString(undefined,{maximumFractionDigits:0})}</b> <img src="https://ftm.guru/icons/eliteMorphexMLP.png" style="width:20px;vertical-align:middle"/>
 		<br>
-		(${((Number(_ds[1])/1e18)/(Number(_ds[0])/1e18)*100).toLocaleString(undefined,{maximumFractionDigits:4})}% Dominance)
+		Dominance: <b>${((Number(_ds[1])/1e18)/(Number(_ds[0])/1e18)*100).toLocaleString(undefined,{maximumFractionDigits:4})}</b>%
 	`;
 
 }
 
 async function gubs() {
-	_FARM = new ethers.Contract(BASE, LPABI, signer);
 	_WRAP = new ethers.Contract(WRAP, LPABI, signer);
 
+	_FARM = new ethers.Contract(BASE, LPABI, signer);
 	_ubs = await Promise.all([
+		_WRAP.balanceOf(window.ethereum.selectedAddress),
 		_FARM.balanceOf(window.ethereum.selectedAddress),
-		_WRAP.balanceOf(window.ethereum.selectedAddress)
+		_FARM.earned(TEARNED[0], window.ethereum.selectedAddress),
+		_FARM.earnings(TEARNED[0], window.ethereum.selectedAddress),
 	]);
-	$("ub-mint").innerHTML = (Number(_ubs[0])/1e18).toLocaleString(undefined,{maximumFractionDigits:18});
-	$("ub-redeem").innerHTML = (Number(_ubs[1])/1e18).toLocaleString(undefined,{maximumFractionDigits:18});
+	$("ub-stake").innerHTML = (Number(_ubs[0])/1e18).toLocaleString(undefined,{maximumFractionDigits:18});
+	$("ub-unstake").innerHTML = (Number(_ubs[1])/1e18).toLocaleString(undefined,{maximumFractionDigits:18});
+	_claimable = (Number(_ubs[2])/1e18).toLocaleString(undefined,{maximumFractionDigits:18});
+	if( Number(_ubs[2]) > 0 ) $("farm-earn-claimable").value = _claimable;
+	$("farm-earn-total") = (Number(_ubs[3])/1e18).toLocaleString(undefined,{maximumFractionDigits:2});
 }
-
-LPABI = ["function balanceOf(address) public view returns(uint)","function approve(address,uint)","function allowance(address,address) public view returns(uint)","function totalSupply() public view returns(uint)","function deposit(uint)","function withdraw(uint)"]
 
 async function quote() {
 	return;
@@ -221,7 +225,7 @@ async function mint() {
 		_WRAP.balanceOf(window.ethereum.selectedAddress)
 	]);
 
-	if(Number(_oamt)>Number(al[1])) {notice(`<h2>Insufficient Balance!</h2><h3>Desired Amount:</h3>${_oamt/1e18}<br><h3>Actual Balance:</h3>${al[1]/1e18}<br><br><b>Please reduce the amount and retry again, or accumulate some more ${WRAP_NAME}.`);}
+	if(Number(_oamt)>Number(al[1])) {notice(`<h2>Insufficient Balance!</h2><h3>Desired Amount:</h3>${_oamt/1e18}<br><h3>Actual Balance:</h3>${al[1]/1e18}<br><br><b>Please reduce the amount and retry again, or accumulate some more ${WRAP_NAME}.`);return}
 
 	if(Number(_oamt)>Number(al[0])){
 		notice(`
@@ -282,7 +286,7 @@ async function redeem() {
 		_FARM.balanceOf(window.ethereum.selectedAddress)
 	]);
 
-	if(Number(_oamt)>Number(al[1])) {notice(`<h2>Insufficient Staked Balance!</h2><h3>Desired Amount:</h3>${Number(_oamt)/1e18}<br><h3>Actual Staked Balance:</h3>${al[1]/1e18}<br><br><b>Please reduce the amount and retry again, or Stake some more ${WRAP_NAME}.`);}
+	if(Number(_oamt)>Number(al[1])) {notice(`<h2>Insufficient Staked Balance!</h2><h3>Desired Amount:</h3>${Number(_oamt)/1e18}<br><h3>Actual Staked Balance:</h3>${al[1]/1e18}<br><br><b>Please reduce the amount and retry again, or Stake some more ${WRAP_NAME}.`); return}
 
 	notice(`
 		<h3>Order Summary</h3>
@@ -307,6 +311,43 @@ async function redeem() {
 	notice(`
 		<h3>Order Completed!</h3>
 		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Unstaked: <b>${fornum(_oamt,18)}</b><br>
+		<br><br>
+		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
+	`);
+	gubs();
+}
+
+async function claim() {
+	_FARM = new ethers.Contract(FARM, LPABI,signer);
+	_oamt = $("man-inp-redeem").value;
+	if(!isFinite(_oamt)){notice(`Invalid ${WRAP_NAME} amount!`); return;}
+	_oamt = BigInt(_oamt * 1e18)
+
+	_earned = await _FARM.earned(TEARNED[0], window.ethereum.selectedAddress);
+
+	if(Number(_earned) == 0 ) {notice(`You dont have any pending rewards! Stake some more ${WRAP_NAME} to earn more!`); return;}
+
+	notice(`
+		<h3>Order Summary</h3>
+		<b>Claiming ${TEARNED_NAME[0]} rewards</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${TEARNED_LOGO[0]}"> <b>${fornum(_earned,18)}</b> ${TEARNED_NAME[0]}
+		<h4><u><i>Please Confirm this transaction in your wallet!</i></u></h4>
+	`);
+	let _tr = await _VOTER.claimRewards([FARM],[[TEARNED[0]]]);
+	console.log(_tr);
+	notice(`
+		<h3>Order Submitted!</h3>
+		<b>Claiming ${TEARNED_NAME[0]} rewards</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${TEARNED_LOGO[0]}"> <b>${fornum(_earned,18)}</b> ${TEARNED_NAME[0]}
+		<br>
+		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
+	`);
+	_tw = await _tr.wait();
+	console.log(_tw)
+	notice(`
+		<h3>Order Completed!</h3>
+		<b>Claimed ${TEARNED_NAME[0]} rewards</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${TEARNED_LOGO[0]}"> <b>${fornum(_earned,18)}</b> ${TEARNED_NAME[0]}
 		<br><br>
 		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
 	`);

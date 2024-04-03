@@ -182,9 +182,9 @@ async function dexstats() {
 		_WRAP.totalSupply(),
 	])
 	$("tvl-usd").innerHTML = `
-		<b>${(Number(_ds[1])/1e18).toLocaleString(undefined,{maximumFractionDigits:2})} ${WRAP_NAME}</b>
+		Total Supply: <b>${(Number(_ds[1])/1e18).toLocaleString(undefined,{maximumFractionDigits:0})}</b> <img src="https://ftm.guru/icons/eliteMorphexMLP.png" style="width:20px;vertical-align:middle"/>
 		<br>
-		(${((Number(_ds[1])/1e18)/(Number(_ds[0])/1e18)*100).toLocaleString(undefined,{maximumFractionDigits:4})}% Dominance)
+		Dominance: <b>${((Number(_ds[1])/1e18)/(Number(_ds[0])/1e18)*100).toLocaleString(undefined,{maximumFractionDigits:4})}%</b>
 	`;
 
 }
@@ -221,7 +221,7 @@ async function mint() {
 		_BASE.balanceOf(window.ethereum.selectedAddress)
 	]);
 
-	if(Number(_oamt)>Number(al[1])) {notice(`<h2>Insufficient Balance!</h2><h3>Desired Amount:</h3>${_oamt/1e18}<br><h3>Actual Balance:</h3>${al[1]/1e18}<br><br><b>Please reduce the amount and retry again, or accumulate some more ${BASE_NAME}.`);}
+	if(Number(_oamt)>Number(al[1])) {notice(`<h2>Insufficient Balance!</h2><h3>Desired Amount:</h3>${_oamt/1e18}<br><h3>Actual Balance:</h3>${al[1]/1e18}<br><br><b>Please reduce the amount and retry again, or accumulate some more ${BASE_NAME}.`);return;}
 
 	if(Number(_oamt)>Number(al[0])){
 		notice(`
@@ -288,7 +288,7 @@ async function redeem() {
 		_WRAP.balanceOf(window.ethereum.selectedAddress)
 	]);
 
-	if(Number(_oamt)>Number(al[1])) {notice(`<h2>Insufficient Balance!</h2><h3>Desired Amount:</h3>${Number(_oamt)/1e18}<br><h3>Actual Balance:</h3>${al[1]/1e18}<br><br><b>Please reduce the amount and retry again, or accumulate some more ${WRAP_NAME}.`);}
+	if(Number(_oamt)>Number(al[1])) {notice(`<h2>Insufficient Balance!</h2><h3>Desired Amount:</h3>${Number(_oamt)/1e18}<br><h3>Actual Balance:</h3>${al[1]/1e18}<br><br><b>Please reduce the amount and retry again, or accumulate some more ${WRAP_NAME}.`);return;}
 
 	if(Number(_oamt)>Number(al[0])){
 		notice(`
