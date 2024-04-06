@@ -214,8 +214,8 @@ async function gubs() {
 	$("ub-stake").innerHTML = (Number(_ubs[0])/1e18).toLocaleString(undefined,{maximumFractionDigits:18});
 	$("ub-unstake").innerHTML = (Number(_ubs[1])/1e18).toLocaleString(undefined,{maximumFractionDigits:18});
 	_claimable = (Number(_ubs[2])/1e18).toLocaleString(undefined,{maximumFractionDigits:18});
-	if( Number(_ubs[2]) > 0 ) $("farm-earn-claimable").value = _claimable;
-	$("farm-earn-total").innerHTML = (Number(_ubs[3])/1e18).toLocaleString(undefined,{maximumFractionDigits:2});
+	if( Number(_ubs[2]) > 0 ) $("farm-earn-claimable-0").value = _claimable;
+	$("farm-earn-total-0").innerHTML = (Number(_ubs[3])/1e18).toLocaleString(undefined,{maximumFractionDigits:2});
 }
 
 async function quote() {

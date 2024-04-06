@@ -403,7 +403,7 @@ textarea:focus, input:focus {
 
 
 	.mechanism input, .nft-amtl {
-		font-size: 1.5em;
+		font-size: 1em;
 	}
 
 	button.submit {
@@ -531,7 +531,7 @@ textarea:focus, input:focus {
 
 
 .amount-sold, .amount-bought {
-	font-size: 2em;
+	font-size: 1.5em;
 }
 .amount-sold b, .amount-bought b {
 	font-family: regular;
@@ -539,14 +539,15 @@ textarea:focus, input:focus {
 
 .amount-sold input, .amount-bought input {
 	font-family: light;
+	font-size:0.7em;
 }
 
 
 
 
 img.bigthumb {
-	width: 60px;
-	height: 60px;
+	width: 36px;
+	height: 36px;
 	display: inline;
 	vertical-align: middle;
 }
@@ -611,8 +612,12 @@ img.bigthumb {
 		grid-template-columns:auto max-content;
 	}
 
-	.amount-sold input, .amount-bought input {
+	.amount-sold, .amount-bought {
 		font-size: 2em;
+	}
+
+	.amount-sold input, .amount-bought input {
+		font-size: 1em;
 	}
 
 	.amount-sold b, .amount-bought b {
@@ -620,8 +625,8 @@ img.bigthumb {
 	}
 
 	.mechanism .input-amount img.bigthumb {
-		width: 100px;
-		height: 100px;
+		width: 60px;
+		height: 60px;
 	}
 	.subnav {
 		grid-template-columns:auto auto max-content auto auto;
