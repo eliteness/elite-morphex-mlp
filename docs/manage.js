@@ -303,7 +303,7 @@ async function redeem() {
 			Please grant ${WRAP_NAME} allowance.<br><br>
 			<h4><u><i>Confirm this transaction in your wallet!</i></u></h4>
 		`);
-		let _tr = await _BASE.approve(MANAGER,_oamt);
+		let _tr = await _WRAP.approve(MANAGER,_oamt);
 		console.log(_tr);
 		notice(`
 			<h3>Submitting Approval Transaction!</h3>

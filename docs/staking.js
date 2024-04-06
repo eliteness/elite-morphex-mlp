@@ -182,10 +182,10 @@ async function dexstats() {
 	_ds = await Promise.all([
 		_BASE.totalSupply(),
 		_WRAP.totalSupply(),
+		_FARM.getAssetPrice(WRAP),
 		_FARM.tvl(),
 		_FARM.apr(),
 	])
-
 
 	$("tvl-usd").innerHTML = `
 		<i>
@@ -197,8 +197,8 @@ async function dexstats() {
 		</i>
 	`;
 
-	$("farm-tvl").innerHTML = (Number(_ds[2])/1e18).toLocaleString(undefined,{maximumFractionDigits:0});
-	$("farm-apr").innerHTML = (Number(_ds[3])/1e18).toLocaleString(undefined,{maximumFractionDigits:2});
+	$("farm-tvl").innerHTML = (Number(_ds[3])/1e18).toLocaleString(undefined,{maximumFractionDigits:0});
+	$("farm-apr").innerHTML = (Number(_ds[4])/1e18).toLocaleString(undefined,{maximumFractionDigits:2});
 
 }
 
