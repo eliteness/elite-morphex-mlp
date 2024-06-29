@@ -218,7 +218,7 @@ async function gubs() {
 	_claimable0 = (Number(_ubs[2])/1e18).toLocaleString(undefined,{maximumFractionDigits:18});
 	if( Number(_ubs[2]) > 0 ) $("farm-earn-claimable-0").value = _claimable0;
 	$("farm-earn-total-0").innerHTML = (Number(_ubs[3])/1e18).toLocaleString(undefined,{maximumFractionDigits:2});
-	_claimable1 = (Number(_ubs[2])/1e18).toLocaleString(undefined,{maximumFractionDigits:18});
+	_claimable1 = (Number(_ubs[4])/1e18).toLocaleString(undefined,{maximumFractionDigits:18});
 	if( Number(_ubs[4]) > 0 ) $("farm-earn-claimable-1").value = _claimable1;
 	$("farm-earn-total-1").innerHTML = (Number(_ubs[5])/1e18).toLocaleString(undefined,{maximumFractionDigits:2});
 }
