@@ -209,7 +209,7 @@ async function gubs() {
 		_WRAP.balanceOf(window.ethereum.selectedAddress),
 		_FARM.balanceOf(window.ethereum.selectedAddress),
 		_FARM.earned(TEARNED[0], window.ethereum.selectedAddress),
-		_FARM.earnings(TEARNED[0], window.ethereum.selectedAddress),
+		_FARM.earnings(window.ethereum.selectedAddress, TEARNED[0]TEARNED[0]),
 	]);
 	$("ub-stake").innerHTML = (Number(_ubs[0])/1e18).toLocaleString(undefined,{maximumFractionDigits:18});
 	$("ub-unstake").innerHTML = (Number(_ubs[1])/1e18).toLocaleString(undefined,{maximumFractionDigits:18});
