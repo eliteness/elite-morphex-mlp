@@ -1,11 +1,8 @@
-
-
-@font-face{font-family:bold;src: url(https://ftm.guru/font/bold.ttf);}
-@font-face{ font-family:italic;src: url(https://ftm.guru/font/italic.ttf);}
-@font-face{ font-family:light;src: url(https://ftm.guru/font/light.ttf);}
-@font-face{ font-family:light_italic;src: url(https://ftm.guru/font/light_italic.ttf);}
-@font-face{ font-family:regular;src: url(https://ftm.guru/font/regular.ttf);}
-@font-face{ font-family:regular_italic;src: url(https://ftm.guru/font/regular_italic.ttf);}
+@font-face{font-family:bold;src: url(https://eliteness.network/fonts/neue-haas-grotesk/NeueHaasDisplayBold.ttf);}
+@font-face{ font-family:italic;src: url(https://eliteness.network/fonts/neue-haas-grotesk/NeueHaasDisplayRomanItalic.ttf);}
+@font-face{ font-family:light;src: url(https://eliteness.network/fonts/neue-haas-grotesk/NeueHaasDisplayLight.ttf);}
+@font-face{ font-family:light_italic;src: url(https://eliteness.network/fonts/neue-haas-grotesk/NeueHaasDisplayLightItalic.ttf);}
+@font-face{ font-family:regular;src: url(https://eliteness.network/fonts/neue-haas-grotesk/NeueHaasDisplayRoman.ttf);}
 *{
 	font-family:regular;
 	scroll-behavior: smooth !important;
@@ -243,7 +240,7 @@ textarea:focus, input:focus {
 #cw {
 	background: -webkit-linear-gradient(183.56deg, #0564d7, #28edec);
 	background: -moz-linear-gradient(183.56deg, #0564d7 0, #28edec 100%);
-	background: linear-gradient(266.44deg, #0564d7, #28edec);
+	background: linear-gradient(266.44deg, #59f, #28edec);
 	border-radius:5px;
 	padding:4px;
 }
