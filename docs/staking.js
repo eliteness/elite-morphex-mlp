@@ -209,13 +209,18 @@ async function gubs() {
 		_WRAP.balanceOf(window.ethereum.selectedAddress),
 		_FARM.balanceOf(window.ethereum.selectedAddress),
 		_FARM.earned(TEARNED[0], window.ethereum.selectedAddress),
-		_FARM.earnings(window.ethereum.selectedAddress, TEARNED[0]TEARNED[0]),
+		_FARM.earnings(window.ethereum.selectedAddress, TEARNED[0]),
+		_FARM.earned(TEARNED[1], window.ethereum.selectedAddress),
+		_FARM.earnings(window.ethereum.selectedAddress, TEARNED[1]),
 	]);
 	$("ub-stake").innerHTML = (Number(_ubs[0])/1e18).toLocaleString(undefined,{maximumFractionDigits:18});
 	$("ub-unstake").innerHTML = (Number(_ubs[1])/1e18).toLocaleString(undefined,{maximumFractionDigits:18});
-	_claimable = (Number(_ubs[2])/1e18).toLocaleString(undefined,{maximumFractionDigits:18});
-	if( Number(_ubs[2]) > 0 ) $("farm-earn-claimable-0").value = _claimable;
+	_claimable0 = (Number(_ubs[2])/1e18).toLocaleString(undefined,{maximumFractionDigits:18});
+	if( Number(_ubs[2]) > 0 ) $("farm-earn-claimable-0").value = _claimable0;
 	$("farm-earn-total-0").innerHTML = (Number(_ubs[3])/1e18).toLocaleString(undefined,{maximumFractionDigits:2});
+	_claimable1 = (Number(_ubs[2])/1e18).toLocaleString(undefined,{maximumFractionDigits:18});
+	if( Number(_ubs[4]) > 0 ) $("farm-earn-claimable-1").value = _claimable1;
+	$("farm-earn-total-1").innerHTML = (Number(_ubs[5])/1e18).toLocaleString(undefined,{maximumFractionDigits:2});
 }
 
 async function quote() {
