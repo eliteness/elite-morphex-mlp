@@ -340,32 +340,36 @@ async function claim() {
 	if(!isFinite(_oamt)){notice(`Invalid ${WRAP_NAME} amount!`); return;}
 	_oamt = BigInt(_oamt * 1e18)
 
-	_earned = await _FARM.earned(TEARNED[0], window.ethereum.selectedAddress);
+	_earned = await Promise.all([
+		_FARM.earned(TEARNED[0], window.ethereum.selectedAddress),
+		_FARM.earned(TEARNED[1], window.ethereum.selectedAddress),
+	]);
 
-	if(Number(_earned) == 0 ) {notice(`<h3>You dont have any pending rewards!</h3> Stake some ${WRAP_NAME} to earn more!`); return;}
+	if(Number(_earned[0]) == 0 && Number(_earned[1]) == 0 ) {notice(`<h3>You dont have any pending rewards!</h3> Stake some ${WRAP_NAME} to earn more!`); return;}
 
 	notice(`
 		<h3>Order Summary</h3>
-		<b>Claiming ${TEARNED_NAME[0]} rewards</b><br>
-		<img style='height:20px;position:relative;top:4px' src="${TEARNED_LOGO[0]}"> <b>${fornum(_earned,18)}</b> ${TEARNED_NAME[0]}
+		<b>Claiming ${TEARNED_NAME.join("+")} rewards</b>
+		<br><img style='height:20px;position:relative;top:4px' src="${TEARNED_LOGO[0]}"> <b>${fornum(_earned[0],18)}</b> ${TEARNED_NAME[0]}
+		<br><img style='height:20px;position:relative;top:4px' src="${TEARNED_LOGO[1]}"> <b>${fornum(_earned[1],18)}</b> ${TEARNED_NAME[1]}
 		<h4><u><i>Please Confirm this transaction in your wallet!</i></u></h4>
 	`);
-	let _tr = await _VOTER.claimRewards([FARM],[[TEARNED[0]]]);
+	let _tr = await _VOTER.claimRewards([FARM],[[TEARNED[0]]],{gasLimit:BigInt(1_500_000)});
 	console.log(_tr);
 	notice(`
 		<h3>Order Submitted!</h3>
-		<b>Claiming ${TEARNED_NAME[0]} rewards</b><br>
-		<img style='height:20px;position:relative;top:4px' src="${TEARNED_LOGO[0]}"> <b>${fornum(_earned,18)}</b> ${TEARNED_NAME[0]}
-		<br>
+		<b>Claiming ${TEARNED_NAME.join("+")} rewards</b>
+		<br><img style='height:20px;position:relative;top:4px' src="${TEARNED_LOGO[0]}"> <b>${fornum(_earned[0],18)}</b> ${TEARNED_NAME[0]}
+		<br><img style='height:20px;position:relative;top:4px' src="${TEARNED_LOGO[1]}"> <b>${fornum(_earned[1],18)}</b> ${TEARNED_NAME[1]}
 		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
 	`);
 	_tw = await _tr.wait();
 	console.log(_tw)
 	notice(`
 		<h3>Order Completed!</h3>
-		<b>Claimed ${TEARNED_NAME[0]} rewards</b><br>
-		<img style='height:20px;position:relative;top:4px' src="${TEARNED_LOGO[0]}"> <b>${fornum(_earned,18)}</b> ${TEARNED_NAME[0]}
-		<br><br>
+		<b>Claiming ${TEARNED_NAME.join("+")} rewards</b>
+		<br><img style='height:20px;position:relative;top:4px' src="${TEARNED_LOGO[0]}"> <b>${fornum(_earned[0],18)}</b> ${TEARNED_NAME[0]}
+		<br><img style='height:20px;position:relative;top:4px' src="${TEARNED_LOGO[1]}"> <b>${fornum(_earned[1],18)}</b> ${TEARNED_NAME[1]}
 		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
 	`);
 	gubs();
