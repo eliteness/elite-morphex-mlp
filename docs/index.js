@@ -228,6 +228,15 @@ async function dexstats() {
 	$("stake-tvl").innerHTML = "$" + (Number(_ds[3])/1e18).toLocaleString(undefined,{maximumFractionDigits:2}) + " in Total Deposits";
 	//$("farm-apr").innerHTML = (Number(_ds[4])/1e18).toLocaleString(undefined,{maximumFractionDigits:2});
 
+	for(i=0;i<TEARNED.length;i++) {
+		$("claim-info").innerHTML += `
+			<div><img height="20px" src="${LOGOS+TEARNED[i].toLowerCase()}.png" style="vertical-align:middle;"/> ${TEARNED_NAME[i]}</div>
+            <div class="hint"id="claim-${i}-old">Claimed: 0.000000000000000000</div>
+            <div class="hint"id="claim-${i}-pen">Pending: 0.000000000000000000</div>
+            <div class="hint"id="claim-${i}-tot">Total: 0.000000000000000000</div>
+            <br><br>
+		`;
+	}
 	return;
 
 }

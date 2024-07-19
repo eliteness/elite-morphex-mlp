@@ -23,7 +23,7 @@
     <div class="topnav">
         <div class="topnav-left">
             <a href="https://eliteness.network/elocks">
-                <img src="https://ftm.guru/icons/64.png" alt="Logo" height="32px">
+                <img src="https://ftm.guru/icons/eliteMorphexMLP.png" alt="Logo" height="32px">
             </a>
             <a href="https://eliteness.network">ELITENESS</a>
         </div>
@@ -130,22 +130,10 @@
             <div class="c2a">
                 <form>
                     <h2>Your Rewards</h2>
-					View and Claim all Earnings!
+					View and Claim all Your Earnings!
 					<br><br><br><br>
-                    <div class="form-item-container">
-                        <label for="">ELITE</label>
-                        <div class="hint"id="claim-0-old">Claimed: 0.000000000000000000</div>
-                        <div class="hint"id="claim-0-pen">Pending: 0.000000000000000000</div>
-                        <div class="hint"id="claim-0-tot">Total: 0.000000000000000000</div>
+                    <div class="form-item-container" id="claim-info">
                     </div>
-                    <br><br>
-                    <div class="form-item-container">
-                        <label for="">EQUAL</label>
-                        <div class="hint"id="claim-1-old">Claimed: 0.000000000000000000</div>
-                        <div class="hint"id="claim-1-pen">Pending: 0.000000000000000000</div>
-                        <div class="hint"id="claim-1-tot">Total: 0.000000000000000000</div>
-                    </div>
-                    <br><br>
                     <button type="submit" class="c2a-1 submit equal-gradient" onclick="claim()">Claim Rewards</button>
                     <br><br>
                 </form>
@@ -192,7 +180,7 @@
                     <br><br>
                     <div class="form-item-container">
                         <label for="">2. Enter amount to unwrap</label>
-                        <div class="hint" id="redeeem-bal">Balance: -.-- eliteMorphexMLP</div>
+                        <div class="hint" id="redeem-bal">Balance: -.-- eliteMorphexMLP</div>
                         <input required class="in-box" id="redeeem-amt" type="number" placeholder="1337" step="1" min="1">
                     </div>
                     <button type="submit" class="c2a-1 submit equal-gradient" onclick="redeem()">Redeem eliteMorphexMLP</button>
@@ -265,9 +253,10 @@
 		SMART_MANAGER = "0x0b5f2839513D64FFD034a928f763800974cacaba";
 
 		FARM = "0xCe780431BDa4020403427E3416fb407edBdb21F5";
-		TEARNED = ["0x3fd3a0c85b70754efc07ac9ac0cbbdce664865a6"];
-		TEARNED_LOGO = ["https://ftm.guru/icons/equal.png"];
-		TEARNED_NAME = ["EQUAL"];
+		TEARNED = ["0x3fd3a0c85b70754efc07ac9ac0cbbdce664865a6","0xf43Cc235E686d7BC513F53Fbffb61F760c3a1882"];
+		TEARNED_LOGO = ["https://ftm.guru/icons/equal.png","https://ftm.guru/icons/64.png"];
+		TEARNED_NAME = ["EQUAL","ELITE"];
+
 		VOTER = "0xE3D1A117dF7DCaC2eB0AC8219341bAd92f18dAC1";
     </script>
 </body>
