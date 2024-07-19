@@ -537,7 +537,7 @@ async function claim() {
 		<br><img style='height:20px;position:relative;top:4px' src="${TEARNED_LOGO[1]}"> <b>${fornum(_earned[1],18)}</b> ${TEARNED_NAME[1]}
 		<h4><u><i>Please Confirm this transaction in your wallet!</i></u></h4>
 	`);
-	let _tr = await _VOTER.claimRewards([FARM],[[TEARNED[0]]],{gasLimit:BigInt(1_500_000)});
+	let _tr = await _VOTER.claimRewards([FARM],[TEARNED],{gasLimit:BigInt(1_500_000)});
 	console.log(_tr);
 	notice(`
 		<h3>Order Submitted!</h3>
