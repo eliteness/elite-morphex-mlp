@@ -97,8 +97,7 @@ function fornum(n,d)
 	return(n_);
 }
 */
-function fornum(n,d)
-{
+function fornum(n,d) {
 	_n=(Number(n)/10**Number(d));
 	n_=_n;
 	if(_n>1e18){n_=(_n/1e18).toFixed(3)+"Qt"}
@@ -111,14 +110,15 @@ function fornum(n,d)
 	else if(_n>0.0){n_=(_n/1e0).toFixed(8)+""}
 	return(n_);
 }
+function fornum5(n,d) {
+	return (Number(n)/10**Number(d)).toLocaleString(undefined,{maximumFractionDigits:d}) ;
+}
 
-async function cw()
-{
+async function cw() {
 	let cs = await cw2(); cs?console.log("Good to Transact"):cw2();
 	cw2();
 }
-async function cw2()
-{
+async function cw2() {
 	if(!(window.ethereum)){$("cw_m").innerHTML="Metamask not detected! Trying a refresh";console.log("Metamask not found!");window.location.reload();return(0)}
 	if(!(Number(window.ethereum.chainId)==CHAINID)){$("cw_m").innerHTML="Wrong network detected! Please switch to chain ID", CHAINID, "and refresh this page.";return(0)}
 	if(typeof provider == "undefined"){$("cw_m").innerHTML="Provider not detected! Trying a refresh";console.log("Provider not found!");window.location.reload();return(0)}
@@ -251,7 +251,7 @@ async function arf(){
 			catch(e) { console.log('hmm..'); }
 			c++;
 		},
-		20_000
+		16_000
 	);
 }
 async function gubs() {
@@ -337,8 +337,8 @@ async function mint() {
 		<h3>Order Summary</h3>
 		<b>Minting ${WRAP_NAME}</b><br>
 
-		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${BASE_NAME} to Deposit: <b>${fornum(_oamt,18)}</b><br>
-		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Expected: <b>${fornum(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${BASE_NAME} to Deposit: <b>${fornum5(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Expected: <b>${fornum5(_oamt,18)}</b><br>
 
 		<h4><u><i>Please Confirm this transaction in your wallet!</i></u></h4>
 	`);
@@ -347,16 +347,16 @@ async function mint() {
 	notice(`
 		<h3>Order Submitted!</h3>
 		<h4>Minting ${WRAP_NAME}</h4>
-		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${BASE_NAME} Depositing: <b>${fornum(_oamt,18)}</b><br>
-		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Expecting: <b>${fornum(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${BASE_NAME} Depositing: <b>${fornum5(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Expecting: <b>${fornum5(_oamt,18)}</b><br>
 		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
 	`);
 	_tw = await _tr.wait();
 	console.log(_tw)
 	notice(`
 		<h3>Order Completed!</h3>
-		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${BASE_NAME} Deposited: <b>${fornum(_oamt,18)}</b><br>
-		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Received: <b>${fornum(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${BASE_NAME} Deposited: <b>${fornum5(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Received: <b>${fornum5(_oamt,18)}</b><br>
 		<br><br>
 		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
 	`);
@@ -403,8 +403,8 @@ async function redeem() {
 		<h3>Order Summary</h3>
 		<b>Redeeming ${WRAP_NAME}</b><br>
 
-		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} to Redeem: <b>${fornum(_oamt,18)}</b><br>
-		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${BASE_NAME} Expected: <b>${fornum(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} to Redeem: <b>${fornum5(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${BASE_NAME} Expected: <b>${fornum5(_oamt,18)}</b><br>
 
 		<h4><u><i>Please Confirm this transaction in your wallet!</i></u></h4>
 	`);
@@ -413,16 +413,16 @@ async function redeem() {
 	notice(`
 		<h3>Order Submitted!</h3>
 		<h4>Redeeming ${WRAP_NAME}</h4>
-		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Redeeming: <b>${fornum(_oamt,18)}</b><br>
-		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${BASE_NAME} Expecting: <b>${fornum(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Redeeming: <b>${fornum5(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${BASE_NAME} Expecting: <b>${fornum5(_oamt,18)}</b><br>
 		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
 	`);
 	_tw = await _tr.wait();
 	console.log(_tw)
 	notice(`
 		<h3>Order Completed!</h3>
-		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Redeemed: <b>${fornum(_oamt,18)}</b><br>
-		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${BASE_NAME} Received: <b>${fornum(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Redeemed: <b>${fornum5(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${BASE_NAME} Received: <b>${fornum5(_oamt,18)}</b><br>
 		<br><br>
 		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
 	`);
@@ -470,7 +470,7 @@ async function stake() {
 	notice(`
 		<h3>Order Summary</h3>
 		<b>Staking ${WRAP_NAME}</b><br>
-		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} to Stake: <b>${fornum(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} to Stake: <b>${fornum5(_oamt,18)}</b><br>
 		<h4><u><i>Please Confirm this transaction in your wallet!</i></u></h4>
 	`);
 	let _tr = await _FARM.deposit(_oamt);
@@ -478,14 +478,14 @@ async function stake() {
 	notice(`
 		<h3>Order Submitted!</h3>
 		<h4>Staking ${WRAP_NAME}</h4>
-		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Staking: <b>${fornum(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Staking: <b>${fornum5(_oamt,18)}</b><br>
 		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
 	`);
 	_tw = await _tr.wait();
 	console.log(_tw)
 	notice(`
 		<h3>Order Completed!</h3>
-		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${WRAP_NAME} Staked: <b>${fornum(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${WRAP_NAME} Staked: <b>${fornum5(_oamt,18)}</b><br>
 		<br><br>
 		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
 	`);
@@ -508,8 +508,8 @@ async function unstake() {
 		<h3>Order Summary</h3>
 		<b>Redeeming ${WRAP_NAME}</b><br>
 
-		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} to Redeem: <b>${fornum(_oamt,18)}</b><br>
-		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${BASE_NAME} Expected: <b>${fornum(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} to Redeem: <b>${fornum5(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${BASE_NAME} Expected: <b>${fornum5(_oamt,18)}</b><br>
 
 		<h4><u><i>Please Confirm this transaction in your wallet!</i></u></h4>
 	`);
@@ -518,14 +518,14 @@ async function unstake() {
 	notice(`
 		<h3>Order Submitted!</h3>
 		<h4>Unstaking ${WRAP_NAME}</h4>
-		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Unstaking: <b>${fornum(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Unstaking: <b>${fornum5(_oamt,18)}</b><br>
 		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
 	`);
 	_tw = await _tr.wait();
 	console.log(_tw)
 	notice(`
 		<h3>Order Completed!</h3>
-		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Unstaked: <b>${fornum(_oamt,18)}</b><br>
+		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Unstaked: <b>${fornum5(_oamt,18)}</b><br>
 		<br><br>
 		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
 	`);
@@ -546,8 +546,8 @@ async function claim() {
 	notice(`
 		<h3>Order Summary</h3>
 		<b>Claiming ${TEARNED_NAME.join("+")} rewards</b>
-		<br><img style='height:20px;position:relative;top:4px' src="${TEARNED_LOGO[0]}"> <b>${fornum(_earned[0],18)}</b> ${TEARNED_NAME[0]}
-		<br><img style='height:20px;position:relative;top:4px' src="${TEARNED_LOGO[1]}"> <b>${fornum(_earned[1],18)}</b> ${TEARNED_NAME[1]}
+		<br><img style='height:20px;position:relative;top:4px' src="${TEARNED_LOGO[0]}"> <b>${fornum5(_earned[0],18)}</b> ${TEARNED_NAME[0]}
+		<br><img style='height:20px;position:relative;top:4px' src="${TEARNED_LOGO[1]}"> <b>${fornum5(_earned[1],18)}</b> ${TEARNED_NAME[1]}
 		<h4><u><i>Please Confirm this transaction in your wallet!</i></u></h4>
 	`);
 	let _tr = await _VOTER.claimRewards([FARM],[TEARNED],{gasLimit:BigInt(1_500_000)});
@@ -555,8 +555,8 @@ async function claim() {
 	notice(`
 		<h3>Order Submitted!</h3>
 		<b>Claiming ${TEARNED_NAME.join("+")} rewards</b>
-		<br><img style='height:20px;position:relative;top:4px' src="${TEARNED_LOGO[0]}"> <b>${fornum(_earned[0],18)}</b> ${TEARNED_NAME[0]}
-		<br><img style='height:20px;position:relative;top:4px' src="${TEARNED_LOGO[1]}"> <b>${fornum(_earned[1],18)}</b> ${TEARNED_NAME[1]}
+		<br><img style='height:20px;position:relative;top:4px' src="${TEARNED_LOGO[0]}"> <b>${fornum5(_earned[0],18)}</b> ${TEARNED_NAME[0]}
+		<br><img style='height:20px;position:relative;top:4px' src="${TEARNED_LOGO[1]}"> <b>${fornum5(_earned[1],18)}</b> ${TEARNED_NAME[1]}
 		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
 	`);
 	_tw = await _tr.wait();
@@ -564,8 +564,8 @@ async function claim() {
 	notice(`
 		<h3>Order Completed!</h3>
 		<b>Claiming ${TEARNED_NAME.join("+")} rewards</b>
-		<br><img style='height:20px;position:relative;top:4px' src="${TEARNED_LOGO[0]}"> <b>${fornum(_earned[0],18)}</b> ${TEARNED_NAME[0]}
-		<br><img style='height:20px;position:relative;top:4px' src="${TEARNED_LOGO[1]}"> <b>${fornum(_earned[1],18)}</b> ${TEARNED_NAME[1]}
+		<br><img style='height:20px;position:relative;top:4px' src="${TEARNED_LOGO[0]}"> <b>${fornum5(_earned[0],18)}</b> ${TEARNED_NAME[0]}
+		<br><img style='height:20px;position:relative;top:4px' src="${TEARNED_LOGO[1]}"> <b>${fornum5(_earned[1],18)}</b> ${TEARNED_NAME[1]}
 		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
 	`);
 	gubs();
