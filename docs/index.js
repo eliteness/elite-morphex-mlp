@@ -75,7 +75,7 @@ async function basetrip()
 		window.location.reload()
 	}
 	//DrefreshFarm()
-	//arf()
+	arf()
 	cw()
 	dexstats()
 }
@@ -241,6 +241,19 @@ async function dexstats() {
 
 }
 
+
+async function arf(){
+	var xfr = setInterval(
+		let c=0;
+		async function(){
+			console.log("refreshing farm stats", new Date(), c );
+			try { if( ethers.utils.isAddress(window?.ethereum?.selectedAddress) ) {gubs();} }
+			catch(e) { console.log('hmm..'); }
+			c++;
+		},
+		20_000
+	);
+}
 async function gubs() {
 
 	_BASE = new ethers.Contract(BASE, LPABI, signer);
