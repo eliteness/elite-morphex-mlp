@@ -333,10 +333,9 @@ async function mint() {
 	console.log(_tr);
 	notice(`
 		<h3>Order Submitted!</h3>
-		<br><h4>Minting ${WRAP_NAME}</h4>
+		<h4>Minting ${WRAP_NAME}</h4>
 		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${BASE_NAME} Depositing: <b>${fornum(_oamt,18)}</b><br>
 		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Expecting: <b>${fornum(_oamt,18)}</b><br>
-		<br>
 		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
 	`);
 	_tw = await _tr.wait();
@@ -400,10 +399,9 @@ async function redeem() {
 	console.log(_tr);
 	notice(`
 		<h3>Order Submitted!</h3>
-		<br><h4>Redeeming ${WRAP_NAME}</h4>
+		<h4>Redeeming ${WRAP_NAME}</h4>
 		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Redeeming: <b>${fornum(_oamt,18)}</b><br>
 		<img style='height:20px;position:relative;top:4px' src="${BASE_LOGO}"> ${BASE_NAME} Expecting: <b>${fornum(_oamt,18)}</b><br>
-		<br>
 		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
 	`);
 	_tw = await _tr.wait();
@@ -466,9 +464,8 @@ async function stake() {
 	console.log(_tr);
 	notice(`
 		<h3>Order Submitted!</h3>
-		<br><h4>Staking ${WRAP_NAME}</h4>
+		<h4>Staking ${WRAP_NAME}</h4>
 		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Staking: <b>${fornum(_oamt,18)}</b><br>
-		<br>
 		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
 	`);
 	_tw = await _tr.wait();
@@ -507,9 +504,8 @@ async function unstake() {
 	console.log(_tr);
 	notice(`
 		<h3>Order Submitted!</h3>
-		<br><h4>Unstaking ${WRAP_NAME}</h4>
+		<h4>Unstaking ${WRAP_NAME}</h4>
 		<img style='height:20px;position:relative;top:4px' src="${WRAP_LOGO}"> ${WRAP_NAME} Unstaking: <b>${fornum(_oamt,18)}</b><br>
-		<br>
 		<h4><a target="_blank" href="${EXPLORE}/tx/${_tr.hash}">View on Explorer</a></h4>
 	`);
 	_tw = await _tr.wait();
