@@ -1,206 +1,274 @@
-<!doctype html><html><meta charset="UTF-8">
+<!doctype html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Eliteness Wrapped Morphex MLP</title>
 	<meta name="description" content="Convert MorphexMLP into eliteMorphexMLP to supercharge your MLP earnings with Guru Network DAO!">
 	<meta name="keywords" content="Guru Network, Decentralized Finance, Fantom, Morphex, GMX, GLP, ELITE, MLP, 1337, defi, farming, FTM1337">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="shortcut icon" href="https://ftm.guru/icons/eliteMorphexMLP.png">
-	<link rel="stylesheet" href="index.css"/>
+    <link rel="shortcut icon" href="https://ftm.guru/icons/eliteMorphexMLP.png">
+    <link rel="stylesheet" href="index.css"/>
 </head>
-
 <body>
 
+    <div id="note" class="overlay">
+        <div class="popup">
+            <a class="close" href="#">&times;</a>
+            <div class="content" id="content1">
+                Welcome!
+            </div>
+        </div>
+    </div>
 
-	<div id="note" class="overlay">
-		<div class="popup">
-			<a class="close" href="#">&times;</a>
-			<div class="content" id="content1">
-				w31c0m3 fren!<br>trade well :)
-			</div>
-		</div>
-	</div>
+    <div class="topnav">
+        <div class="topnav-left">
+            <a href="https://eliteness.network/elocks">
+                <img src="https://ftm.guru/icons/64.png" alt="Logo" height="32px">
+            </a>
+            <a href="https://eliteness.network">ELITENESS</a>
+        </div>
+        <div class="topnav-right">
+            <p id="p_cw">
+                <span id="cw" onclick="cw()"><button id="cw_og" class="submit equal-gradient">Connect wallet</button></span>
+            </p>
+        </div>
+    </div>
 
-	<div class="topnav">
-		<div align="left">
-			<a href="https://eliteness.network/e3">
-				<img src="https://ftm.guru/icons/eliteMorphexMLP.png" style="vertical-align: middle;" height="32px">
-			</a>
-			<a href="https://eliteness.network">
-				eliteness.network
-			</a>
-		</div>
-		<div align="right">
-			<p id="p_cw"><span id="cw" onclick="cw()">Hello 👋 <span id="cw_og">Connect wallet!</span></p>
-		</div>
-		<div align="left" class="topnav-mkts" id="topnav-mkts">
-		</div>
-	</div>
-	<div class="subnav" style="display:none">
-		<div class="subnav-link"><a href="#a-trade">Trade</a></div>
-		<div class="subnav-link"><a href="#a-order">Orderbook</a></div>
-		<div class="subnav-link"><a href="#a-addlp">Liquidity</a></div>
-		<div class="subnav-link"><a href="#a-posit">Positions</a></div>
-		<div class="subnav-link"><a href="https://eliteness.network/fertilizer">Farm & Earn</a></div>
-	</div>
+    <div id="main-area">
+        <div class="headline">
+            <div class="headline-keyword">eliteMorphexMLP </div>
+            Supercharge your MLP rewards with Eliteness Wrapped Morphex MLP
+        </div>
 
+        <!-- <div class="page-heading">
+            <img src="https://ftm.guru/icons/lock.svg" alt="Lock Icon">
+            <a href="https://eliteness.network/elocks">eLOCKS</a>
+            ≻ <a>Overview</a>
+        </div> -->
 
+        <div class="topstats">
+            <div class="topstat" onclick="document.getElementsByClassName('tablinks')[2].click();window.location='#Explore'">
+                <div id="topstat-apr">-.--%</div>
+                <div>Yield APR</div>
+            </div>
+            <div class="topstat">
+                <div id="topstat-tvl">$-.--</div>
+                <div>Total Value Locked</div>
+            </div>
+            <div class="topstat">
+                <div id="topstat-dom">-.--% of MLP</div>
+                <div>Dominance</div>
+            </div>
+        </div>
 
+        <!-- Tab Navigation -->
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'Mint')" id="tablinks_Mint">Mint</button>
+            <button class="tablinks" onclick="openTab(event, 'Stake')" id="tablinks_Stake">Stake</button>
+            <button class="tablinks" onclick="openTab(event, 'Claim')" id="tablinks_Claim">Claim</button>
+            <button class="tablinks" onclick="openTab(event, 'Unstake')" id="tablinks_Unstake">Unstake</button>
+            <button class="tablinks" onclick="openTab(event, 'Redeem')" id="tablinks_Redeem">Redeem</button>
+        </div>
 
+        <!-- Tab content -->
+        <div id="Mint" class="tabcontent">
+            <div class="c2a">
+                <form>
+                    <h2>Mint eliteMorphexMLP</h2>
+					eliteMorphexMLP is always minted 1:1 with MLP.
+					<br><br><br><br>
+                    <div class="form-item-container">
+                        <label for="">1. Acquire MLP from Morphex</label>
+                        <div class="hint"><a href="https://morphex.trade/liquidity" target="_blank">Visit Morphex.Trade to mint MLP</a></div>
+                    </div>
+                    <br><br>
+                    <div class="form-item-container">
+                        <label for="">2. Enter MLP amount to Deposit</label>
+                        <div class="hint" id="mint-bal">Balance: ? MLP</div>
+                        <input required class="in-box" id="mint-amt" type="number" placeholder="1337" step="1" min="1">
+                    </div>
+                    <button type="submit" class="c2a-1 submit equal-gradient" onclick="mint()">Mint eliteMorphexMLP</button>
+                    <br><br><br>
+                    <div class="form-item-container">
+                        <label for="">3. Stake to start Earning!</label>
+                        <div class="hint" onclick="openTab(event,'Stake');">Switch to Stake tab.<br>Or use it elsewhere!</div>
+                    </div>
+                    <br><br>
+                </form>
+            </div>
+        </div>
+        <!-- Tab content -->
+        <div id="Stake" class="tabcontent">
+            <div class="c2a">
+                <form>
+                    <h2>Stake eliteMorphexMLP</h2>
+					Deposit into Gauge Farm to Earn Rewards!
+					<div class="hint" id="stake-tvl">TVL: $-.--</div>
+					<br><br>
+                    <div class="form-item-container">
+                        <label for="">1. Mint</label>
+                        <div class="hint" onclick="openTab(event,'Mint');">Switch to Mint tab.</div>
+                    </div>
+                    <br><br>
+                    <div class="form-item-container">
+                        <label for="">2. Enter amount to Stake</label>
+                        <div class="hint" id="stake-bal">Balance: -.-- eliteMorphexMLP</div>
+                        <input required class="in-box" id="stake-amt" type="number" placeholder="1337" step="1" min="1">
+                    </div>
+                    <button type="submit" class="c2a-1 submit equal-gradient" onclick="redeem()">Stake eliteMorphexMLP</button>
+                    <br><br><br>
+                    <div class="form-item-container">
+                        <label for="">3. View & Claim Rewards!</label>
+                        <div class="hint" onclick="openTab(event,'Claim');">Switch to Claim tab.</div>
+                    </div>
+                    <br><br>
+                </form>
+            </div>
+        </div>
+        <!-- Tab content -->
+        <div id="Claim" class="tabcontent">
+            <div class="c2a">
+                <form>
+                    <h2>Your Rewards</h2>
+					View and Claim all Earnings!
+					<br><br><br><br>
+                    <div class="form-item-container">
+                        <label for="">ELITE</label>
+                        <div class="hint"id="claim-0-old">Claimed: 0.000000000000000000</div>
+                        <div class="hint"id="claim-0-pen">Pending: 0.000000000000000000</div>
+                        <div class="hint"id="claim-0-tot">Total: 0.000000000000000000</div>
+                    </div>
+                    <br><br>
+                    <div class="form-item-container">
+                        <label for="">EQUAL</label>
+                        <div class="hint"id="claim-1-old">Claimed: 0.000000000000000000</div>
+                        <div class="hint"id="claim-1-pen">Pending: 0.000000000000000000</div>
+                        <div class="hint"id="claim-1-tot">Total: 0.000000000000000000</div>
+                    </div>
+                    <br><br>
+                    <button type="submit" class="c2a-1 submit equal-gradient" onclick="claim()">Claim Rewards</button>
+                    <br><br>
+                </form>
+            </div>
+        </div>
+        <!-- Tab content -->
+        <div id="Unstake" class="tabcontent">
+            <div class="c2a">
+                <form>
+                    <h2>Un-Stake eliteMorphexMLP</h2>
+					Withdraw tokens from Staking Gauge
+					<br><br><br><br>
+                    <div class="form-item-container">
+                        <label for="">1. Unstake</label>
+                        <div class="hint" onclick="openTab(event,'Mint');">Switch to Unstake tab.</div>
+                    </div>
+                    <br><br>
+                    <div class="form-item-container">
+                        <label for="">2. Enter amount to Withdraw</label>
+                        <div class="hint" id="unstake-bal">Balance: -.-- eliteMorphexMLP</div>
+                        <input required class="in-box" id="unstake-amt" type="number" placeholder="1337" step="1" min="1">
+                    </div>
+                    <button type="submit" class="c2a-1 submit equal-gradient" onclick="unstake()">Unstake eliteMorphexMLP</button>
+                    <br><br>
+                    <div class="form-item-container">
+                        <label for="">3. Withdraw</label>
+                        <div class="hint" onclick="openTab(event,'Claim');">Switch to Withdraw tab.<br>Or use eliteMorphexMLP elsewhere!</div>
+                    </div>
+                    <br><br>
+                </form>
+            </div>
+        </div>
+        <!-- Tab content -->
+        <div id="Redeem" class="tabcontent">
+            <div class="c2a">
+                <form>
+                    <h2>Redeem eliteMorphexMLP</h2>
+					Unwrap 1:1 to MLP at anytime!
+					<br><br><br><br>
+                    <div class="form-item-container">
+                        <label for="">1. Unstake</label>
+                        <div class="hint" onclick="openTab(event,'Mint');">Switch to Unstake tab.</a></div>
+                    </div>
+                    <br><br>
+                    <div class="form-item-container">
+                        <label for="">2. Enter amount to unwrap</label>
+                        <div class="hint" id="redeeem-bal">Balance: -.-- eliteMorphexMLP</div>
+                        <input required class="in-box" id="redeeem-amt" type="number" placeholder="1337" step="1" min="1">
+                    </div>
+                    <button type="submit" class="c2a-1 submit equal-gradient" onclick="redeem()">Redeem eliteMorphexMLP</button>
+                    <br><br>
+                    <div class="form-item-container">
+                        <label for="">3. Break MLP</label>
+                        <div class="hint"><a href="https://morphex.trade/liquidity" target="_blank">Visit Morphex.Trade to break MLP</a></div>
+                    </div>
+                    <br><br>
+                </form>
+            </div>
+        </div>
 
-	<div class="partnership">
-		<h1 id="a-trade"><span style="font-size:1em">eliteMorphexMLP</span></h1>
-		<h2>Supercharge your MLP rewards with Eliteness Wrapped Morphex MLP</h2>
-	</div>
-	<br>
-	<div class="mechanism">
-		<div align="center" style="font-family:">
-			<br><br>
-			eliteMorphexMLP is always minted 1:1 with MLP.
-			<br><br>
-		</div>
-		<div class="input-amount">
-			<br>
-			<div class="input-amount-els">
-				<div onclick="pairSelectionMenu()">
-					<br><img class="bigthumb" id="logo-sold" src="https://ftm.guru/icons/morphexmlp.png"/>
-				</div>
-				<div class="amount-area">
-					<div class="prefill-num">
-						<span id="ub-mint">0.000000</span> MLP available
-						<br><a href="https://morphex.trade/liquidity" target="_blank" style="font-family:light;">Need more?</a>
-					</div>
-					<div class="amount-sold">
-						<input value="1" placeholder="Amount to Mint" id="man-inp-mint">
-					</div>
-				</div>
-			</div>
-		</div>
-		<div style="margin-top: -25px;" align="center">
-			<button class="submit equal-gradient" onclick="mint()"><span id="man-mint">Mint eliteMorphexMLP</span></button>
-		</div>
-		<div align="center" style="font-family:">
-			<br><br>
-			Unwrap eliteMorphexMLP to MLP anytime!
-			<br><br>
-		</div>
-		<div class="input-amount">
-			<br>
-			<div class="input-amount-els">
-				<div onclick="pairSelectionMenu()">
-					<img class="bigthumb" id="logo-sold" src="https://ftm.guru/icons/eliteMorphexMLP.png"/>
-				</div>
-				<div class="amount-area">
-					<div class="prefill-num">
-						<span id="ub-redeem">0.000000</span> in wallet
-					</div>
-					<div class="amount-sold">
-						<input value="1" placeholder="Amount to Redeem" id="man-inp-redeem">
-					</div>
-				</div>
-			</div>
-		</div>
-		<div style="margin-top: -25px;" align="center">
-			<button class="submit equal-gradient" onclick="redeem()"><span id="man-redeem">Redeem to MLP</span></button>
-			<br><br>
-		</div>
-		<div align="center" style="font-family:">
-			<br><br>
-			Stake your eliteMorphexMLP to Earn Rewards
-			<br><br>
-		</div>
-	</div>
-	<div class="analytics" style="">
-		<a href="https://morphex.trade/liquidity" target="_blank">Get MLP</a>
-		<a class="equal-gradient-white">Manage</a>
-		<a href="./staking">Staking</a>
-		<a href="https://ftm.guru/docs/elitemorphexmlp" target="_blank">Docs</a>
-	</div>
+        <footer>
+        	<h2>Powered by Guru Network</h2>
+        	<div class="social">
+            	<a target="_blank" href="https://discord.gg/QpyfMarNrV"><img src="https://ftm.guru/icons/discord.svg" alt="Discord"></a>
+            	<a target="_blank" href="https://twitter.com/FTM1337"><img src="https://ftm.guru/icons/twitter.svg" alt="Twitter"></a>
+            	<a target="_blank" href="https://dune.com/eliteness"><img src="https://ftm.guru/icons/dune.svg" alt="Dune"></a>
+            	<a target="_blank" href="https://defillama.com/protocol/guru-network-dao"><img src="https://ftm.guru/icons/defillama.svg" alt="Defillama"></a>
+            	<a target="_blank" href="https://coinmarketcap.com/currencies/elite-1337"><img src="https://ftm.guru/icons/cmc.svg" alt="CoinMarketCap"></a>
+            	<a target="_blank" href="https://ftm.guru/docs"><img src="https://ftm.guru/icons/docs.svg" alt="Docs"></a>
+        	</div>
+		</footer>
+    </div>
 
-	<br>
-	<div align="center" style="font-family:light" id="tvl-usd">
-		<i>Loading Stats...</i>
-	</div>
+    <!-- Ignore Below Block : Dev Logs -->
+    <div style="display:none">
+        <span id="cw_m"></span>
+        <div id="connect">
+            Please connect your web3 wallet.
+            <button onclick="cw()" id="btn-connect">Connect</button>
+        </div>
+        <div id="switch">
+            <b id="btn-switch" onclick="cw()">
+                <span id="cw"></span>
+            </b>
+            <div>Balance: <b id="usb-mtv">?</b> USDC</div>
+            <span>Wallet at Fantom Opera. <a href="index.html" style="color:aqua;">Change?</a></span>
+        </div>
+    </div>
+    <!-- Ignore Above Block : Dev Logs -->
 
+    <script src="https://ftm.guru/ethers-5.2.umd.min.js"></script>
+    <script src="index.js"></script>
+    <script>
+        RPC_URL = "https://rpc.ankr.com/fantom";
+        CHAINID = 250;
+        CHAIN_NAME = "Fantom Opera";
+        CHAIN_GAS = "FTM";
+        DECIMAL = 18;
+        EXPLORE = "https://ftmscan.com/";
+        EXPLORT = EXPLORE + "tx/";
+        EXPLORA = EXPLORE + "address/";
+        TVLGURU = "0x0786c3a78f5133f08c1c70953b8b10376bc6dcad";
+        NATIVE = "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
+        NATIVE_NAME = "FTM";
+        NATIVE_LOGO = "https://ftm.guru/icons/ftm.svg";
+        LOGOS = "https://cdn.jsdelivr.net/gh/unified-defi/equalizer-tokens@latest/fantom/tokens/128x128/";
 
+		BASE = "0x6E3e180b1C5742FC445F0bbdaB7Aa7b902560630";
+		BASE_NAME = "MLP";
+		BASE_LOGO = "https://ftm.guru/icons/morphexmlp.png";
 
+		WRAP = "0x1559eaee5d7194681a72236f2635263009ec7204";
+		WRAP_NAME = "eliteMorphexMLP";
+		WRAP_LOGO = "https://ftm.guru/icons/eliteMorphexMLP.png";
 
+		MANAGER = "0x0b5f2839513D64FFD034a928f763800974cacaba";
+		SMART_MANAGER = "0x0b5f2839513D64FFD034a928f763800974cacaba";
 
-	<br><br>
-	<h2>Powered by Guru Network</h2>
-	<div style="display:none" style="font-size:4em" align="center">
-		<img src="https://ftm.guru/icons/1f9be.svg" height="64px">, <img src="https://ftm.guru/icons/1f680.svg" height="64px">
-	</div>
-	<div class="social">
-		<a target="_blank" href="https://discord.gg/QpyfMarNrV"><img src="https://ftm.guru/icons/discord.svg"></a>
-		<a target="_blank" href="https://twitter.com/FTM1337"><img src="https://ftm.guru/icons/twitter.svg"></a>
-		<a target="_blank" href="https://dune.com/eliteness"><img src="https://ftm.guru/icons/dune.svg"></a>
-		<a target="_blank" href="https://defillama.com/protocol/guru-network-dao"><img src="https://ftm.guru/icons/defillama.svg"></a>
-		<a target="_blank" href="https://coinmarketcap.com/currencies/elite-1337"><img src="https://ftm.guru/icons/cmc.svg"></a>
-		<a target="_blank" href="https://ftm.guru/docs"><img src="https://ftm.guru/icons/docs.svg"></a>
-	</div>
-	<br><br>
-
-
-
-
-
-
-
-
-<!-- IGNORE BELOW BLOCK : DEV LOGS -->
-		<div style="display:none">
-		<span id="cw_m"></span>
-		<div id="connect">
-			Please connect your web3 wallet.
-			<br><br>
-			<button onclick="cw()" id="btn-connect">Connect</button>
-		</div>
-		<div id="switch">
-			<b id="btn-switch" onclick="cw()">
-				<img src="img/wallet.svg" width="24px" style="position:relative;top:4px">
-				<span id="cw"></span>
-			</b>
-			<br>Balance: <b style="font-family:bold" id="usb-mtv">?</b> <img class="imgmtv" src="https://ftm.guru/icons/eth.svg" width="20px" style="position:relative;top:4px">USDC<br>
-			<span style="font-size:0.9em">Wallet at <img class="imgmtv" src="https://ftm.guru/icons/ftm.svg" width="20px" style="position:relative;top:4px">Fantom Opera. <a href="index.html" style="color:aqua;font-family:bold">Change?</a></span>
-		</div>
-	</div>
-<!-- IGNORE ABOVE BLOCK : DEV LOGS -->
-
+		FARM = "0xCe780431BDa4020403427E3416fb407edBdb21F5";
+		TEARNED = ["0x3fd3a0c85b70754efc07ac9ac0cbbdce664865a6"];
+		TEARNED_LOGO = ["https://ftm.guru/icons/equal.png"];
+		TEARNED_NAME = ["EQUAL"];
+		VOTER = "0xE3D1A117dF7DCaC2eB0AC8219341bAd92f18dAC1";
+    </script>
 </body>
-<script src="https://ftm.guru/ethers-5.2.umd.min.js"></script>
-<script src="manage.js"></script>
-<script>
-RPC_URL = "https://rpc.ankr.com/fantom";
-CHAINID = 250;
-CHAIN_NAME = "Fantom Opera";
-CHAIN_GAS = "FTM";
-DECIMAL = 18;
-EXPLORE = "https://ftmscan.com/";
-EXPLORT = EXPLORE + "tx/";
-EXPLORA = EXPLORE + "address/";
-TVLGURU = "0x0786c3a78f5133f08c1c70953b8b10376bc6dcad";
-NATIVE = "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
-NATIVE_NAME = "FTM";
-NATIVE_LOGO = "https://ftm.guru/icons/ftm.svg";
-
-BASE = "0x6E3e180b1C5742FC445F0bbdaB7Aa7b902560630";
-BASE_NAME = "MLP";
-BASE_LOGO = "https://ftm.guru/icons/morphexmlp.png";
-
-WRAP = "0x1559eaee5d7194681a72236f2635263009ec7204";
-WRAP_NAME = "eliteMorphexMLP";
-WRAP_LOGO = "https://ftm.guru/icons/eliteMorphexMLP.png";
-
-MANAGER = "0x0b5f2839513D64FFD034a928f763800974cacaba";
-SMART_MANAGER = "0x0b5f2839513D64FFD034a928f763800974cacaba";
-
-FARM = "0xCe780431BDa4020403427E3416fb407edBdb21F5";
-TEARNED = ["0x3fd3a0c85b70754efc07ac9ac0cbbdce664865a6"];
-TEARNED_LOGO = ["https://ftm.guru/icons/equal.png"];
-TEARNED_NAME = ["EQUAL"];
-VOTER = "0xE3D1A117dF7DCaC2eB0AC8219341bAd92f18dAC1";
-</script>
-<script>
-
-</script>
 </html>
