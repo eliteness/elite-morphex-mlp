@@ -396,6 +396,11 @@ button:disabled {
     cursor: context-menu;
 }
 
+.hint a {
+    color: aqua;
+    cursor: pointer;
+}
+
 #spotlight table tbody td:nth-of-type(2n) {
     text-align: left;
 }
