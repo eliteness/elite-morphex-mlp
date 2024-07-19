@@ -243,8 +243,8 @@ async function dexstats() {
 
 
 async function arf(){
+	let c=0;
 	var xfr = setInterval(
-		let c=0;
 		async function(){
 			console.log("refreshing farm stats", new Date(), c );
 			try { if( ethers.utils.isAddress(window?.ethereum?.selectedAddress) ) {gubs();} }
