@@ -2,6 +2,7 @@
 function $(_) {return document.getElementById(_);}
 let provider= {};
 let signer= {};
+
 window.addEventListener(
 	'load',
 	async function() {
@@ -77,7 +78,7 @@ async function basetrip()
 	//DrefreshFarm()
 	arf()
 	cw()
-	dexstats()
+	await dexstats()
 }
 
 
@@ -301,7 +302,7 @@ async function mint() {
 
 	_oamt = $("mint-amt").value;
 	if(!isFinite(_oamt) || _oamt<1/1e18){notice(`Invalid ${BASE_NAME} amount!`); return;}
-	_oamt = BigInt(_oamt * 1e18)
+	_oamt = BigInt(Math.floor(_oamt * 1e18))
 
 	al = await Promise.all([
 		_BASE.allowance(window.ethereum.selectedAddress, SMART_MANAGER),
@@ -367,7 +368,7 @@ async function redeem() {
 	_MANAGER = new ethers.Contract(MANAGER, LPABI, signer);
 	_oamt = $("redeem-amt").value;
 	if(!isFinite(_oamt)){notice(`Invalid ${WRAP_NAME} amount!`); return;}
-	_oamt = BigInt(_oamt * 1e18)
+	_oamt = BigInt(Math.floor(_oamt * 1e18))
 
 	al = await Promise.all([
 		_WRAP.allowance(window.ethereum.selectedAddress, MANAGER),
@@ -435,7 +436,7 @@ async function stake() {
 
 	_oamt = $("stake-amt").value;
 	if(!isFinite(_oamt) || _oamt<1/1e18){notice(`Invalid ${BASE_NAME} amount!`); return;}
-	_oamt = BigInt(_oamt * 1e18)
+	_oamt = BigInt(Math.floor(_oamt * 1e18))
 
 	al = await Promise.all([
 		_WRAP.allowance(window.ethereum.selectedAddress, FARM),
@@ -496,7 +497,7 @@ async function unstake() {
 	_FARM = new ethers.Contract(FARM, LPABI,signer);
 	_oamt = $("unstake-amt").value;
 	if(!isFinite(_oamt)){notice(`Invalid ${WRAP_NAME} amount!`); return;}
-	_oamt = BigInt(_oamt * 1e18)
+	_oamt = BigInt(Math.floor(_oamt * 1e18))
 
 	al = await Promise.all([
 		_FARM.balanceOf(window.ethereum.selectedAddress)
