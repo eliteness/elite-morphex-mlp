@@ -266,7 +266,7 @@ footer{
 	margin: auto auto;
 }
 
-.c2a input, .c2a button {
+.c2a input, .c2a button, .c2abtn {
     margin: 10px 0;
     padding: 10px;
     border: none;
@@ -277,7 +277,7 @@ footer{
     text-align: center;
 }
 
-.c2a button {
+.c2a button, .c2abtn {
     background: linear-gradient(to top, #07f, #123);
     color: white;
     cursor: pointer;
@@ -285,7 +285,7 @@ footer{
     max-width:300px;
 }
 
-.c2a button:hover {
+.c2a button:hover, .c2abtn:hover {
     box-shadow: 0 0 10px #0ff;
 }
 
@@ -351,7 +351,7 @@ footer{
 }
 
 
-button.submit {
+button.submit, .c2abtn.submit {
 	padding: 10px 30px;
 	border-radius: 30px;
 	font-weight: bold;
@@ -361,16 +361,21 @@ button.submit {
 	padding: 6px;
 	font-size: 0.75em;
 }
-button.submit:hover{
+button.submit:hover, .c2abtn.submit:hover{
 	box-shadow: 0px 2px 2px #0ff
 }
-button.submit:active{
+button.submit:active, .c2abtn.submit:active{
 	position: relative;
 	top:2px;
 }
-.grayed,button:disabled {
+.grayed, button:disabled, .c2abtn:disabled {
 	color:#fff;
 	background:linear-gradient(#777,#111) !important;
+}
+
+button:disabled, .c2abtn:disabled {
+    cursor: not-allowed;
+    color: #fffa;
 }
 
 #spotlight {
@@ -381,11 +386,6 @@ button.submit:active{
 #spotlight input {
     width: 90%;
     max-width: 500px;
-}
-
-button:disabled {
-    cursor: not-allowed;
-    color: #fffa;
 }
 
 .hint, .hint * {
@@ -426,13 +426,13 @@ button:disabled {
         width: 90%;
     }
 
-	button.submit {
+	button.submit, .c2abtn.submit {
 		margin: 5px auto;
 		padding: 10px;
 		font-size: 1em;
 	}
 
-	.c2a, .c2a button {
+	.c2a, .c2a button, .c2abtn.submit {
 		width: 60%;
 	}
 
