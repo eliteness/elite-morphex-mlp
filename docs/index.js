@@ -55,10 +55,14 @@ async function basetrip()
 		if((typeof Number(window.ethereum.chainId) == "number")){$("cw_m").innerHTML = "Wrong network! Switch from " + Number(window.ethereum.chainId)+" to "+CHAINID}
 		provider = new ethers.providers.JsonRpcProvider(RPC_URL);
 		signer = provider.getSigner()
-		$("connect").innerHTML=`Wallet not found.<br><br><button onclick="window.location.reload()" id="btn-connect">Retry?</button>`;
+		$("connect").innerHTML=`Wallet not found.<br><br><button onclick="window.location.reload()">Retry?</button>`;
+		notice(`Wallet not found.<br><br><button onclick="window.location.reload()">Retry?</button>`);
 	}
-	if(Number(window.ethereum.chainId) != null &&(window.ethereum.chainId!=CHAINID))
-	{
+
+	if(
+		(Number(window.ethereum.chainId) != null )
+		&& (window.ethereum.chainId != CHAINID)
+	) {
 		await window.ethereum.request({
     		method: "wallet_addEthereumChain",
     		params: [{
@@ -73,7 +77,8 @@ async function basetrip()
         		blockExplorerUrls: [EXPLORE]
     		}]
 		});
-		window.location.reload()
+		//window.location.reload()
+		notice(`Switching Network...<br>Please Refresh the Page<br><button onclick="window.location.reload()">Refresh</button>`);
 	}
 	//DrefreshFarm()
 	arf()
@@ -120,9 +125,9 @@ async function cw() {
 	cw2();
 }
 async function cw2() {
-	if(!(window.ethereum)){$("cw_m").innerHTML="Metamask not detected! Trying a refresh";console.log("Metamask not found!");window.location.reload();return(0)}
-	if(!(Number(window.ethereum.chainId)==CHAINID)){$("cw_m").innerHTML="Wrong network detected! Please switch to chain ID", CHAINID, "and refresh this page.";return(0)}
-	if(typeof provider == "undefined"){$("cw_m").innerHTML="Provider not detected! Trying a refresh";console.log("Provider not found!");window.location.reload();return(0)}
+	if(!(window.ethereum)){notice(`Metamask not detected!<br>Please Refresh the Page<br><button onclick="window.location.reload()">Refresh</button>`);return(0)}
+	if(!(Number(window.ethereum.chainId)==CHAINID)){notice(`Wrong network detected!<br>Please switch to chain ID ${CHAINID} and refresh this page.<br><button onclick="window.location.reload()">Refresh</button>`);return(0)}
+	if(typeof provider == "undefined"){notice(`Provider not detected!<br>Please connect with a web3 provider or wallet and refresh this page.<br><button onclick="window.location.reload()">Refresh</button>`);return(0)}
 	/*
 	if(!
 		(isFinite(Number(accounts[0])))
