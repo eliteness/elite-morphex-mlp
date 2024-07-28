@@ -300,19 +300,27 @@ async function gubs() {
 
 
 
-async function mint() {
+async function mint(ismax) {
 	_BASE = new ethers.Contract(BASE, LPABI, signer);
 	_WRAP = new ethers.Contract(WRAP, LPABI, signer);
 	_SMART_MANAGER = new ethers.Contract(SMART_MANAGER, LPABI, signer);
-
-	_oamt = $("mint-amt").value;
-	if(!isFinite(_oamt) || _oamt<1/1e18){notice(`Invalid ${BASE_NAME} amount!`); return;}
-	_oamt = BigInt(Math.floor(_oamt * 1e18))
 
 	al = await Promise.all([
 		_BASE.allowance(window.ethereum.selectedAddress, SMART_MANAGER),
 		_BASE.balanceOf(window.ethereum.selectedAddress)
 	]);
+
+	_oamt = null;
+
+	if(ismax) {
+		_oamt = al[1];
+	}
+
+	else {
+		_oamt = $("mint-amt").value;
+		if(!isFinite(_oamt) || _oamt<1/1e18){notice(`Invalid ${BASE_NAME} amount!`); return;}
+		_oamt = BigInt(Math.floor(_oamt * 1e18))
+	}
 
 	if(Number(_oamt)>Number(al[1])) {notice(`<h2>Insufficient Balance!</h2><h3>Desired Amount:</h3>${_oamt/1e18}<br><h3>Actual Balance:</h3>${al[1]/1e18}<br><br><b>Please reduce the amount and retry again, or accumulate some more ${BASE_NAME}.`);return;}
 
@@ -369,16 +377,25 @@ async function mint() {
 	gubs();
 }
 
-async function redeem() {
+async function redeem(ismax) {
 	_MANAGER = new ethers.Contract(MANAGER, LPABI, signer);
-	_oamt = $("redeem-amt").value;
-	if(!isFinite(_oamt)){notice(`Invalid ${WRAP_NAME} amount!`); return;}
-	_oamt = BigInt(Math.floor(_oamt * 1e18))
 
 	al = await Promise.all([
 		_WRAP.allowance(window.ethereum.selectedAddress, MANAGER),
 		_WRAP.balanceOf(window.ethereum.selectedAddress)
 	]);
+
+	_oamt = null;
+
+	if(ismax) {
+		_oamt = al[1];
+	}
+
+	else {
+		_oamt = $("redeem-amt").value;
+		if(!isFinite(_oamt)){notice(`Invalid ${WRAP_NAME} amount!`); return;}
+		_oamt = BigInt(Math.floor(_oamt * 1e18))
+	}
 
 	if(Number(_oamt)>Number(al[1])) {notice(`<h2>Insufficient Balance!</h2><h3>Desired Amount:</h3>${Number(_oamt)/1e18}<br><h3>Actual Balance:</h3>${al[1]/1e18}<br><br><b>Please reduce the amount and retry again, or accumulate some more ${WRAP_NAME}.`);return;}
 
@@ -434,19 +451,29 @@ async function redeem() {
 	`);
 	gubs();
 }
-async function stake() {
+
+async function stake(ismax) {
 	_BASE = new ethers.Contract(BASE, LPABI, signer);
 	_WRAP = new ethers.Contract(WRAP, LPABI, signer);
 	_FARM = new ethers.Contract(FARM, LPABI, signer);
-
-	_oamt = $("stake-amt").value;
-	if(!isFinite(_oamt) || _oamt<1/1e18){notice(`Invalid ${BASE_NAME} amount!`); return;}
-	_oamt = BigInt(Math.floor(_oamt * 1e18))
 
 	al = await Promise.all([
 		_WRAP.allowance(window.ethereum.selectedAddress, FARM),
 		_WRAP.balanceOf(window.ethereum.selectedAddress)
 	]);
+
+	_oamt = null;
+
+	if(ismax) {
+		_oamt = al[1];
+	}
+
+	else {
+		_oamt = $("stake-amt").value;
+		if(!isFinite(_oamt) || _oamt<1/1e18){notice(`Invalid ${BASE_NAME} amount!`); return;}
+		_oamt = BigInt(Math.floor(_oamt * 1e18))
+	}
+
 
 	if(Number(_oamt)>Number(al[1])) {notice(`<h2>Insufficient Balance!</h2><h3>Desired Amount:</h3>${_oamt/1e18}<br><h3>Actual Balance:</h3>${al[1]/1e18}<br><br><b>Please reduce the amount and retry again, or accumulate some more ${WRAP_NAME}.`);return}
 
@@ -498,15 +525,23 @@ async function stake() {
 	gubs();
 }
 
-async function unstake() {
+async function unstake(ismax) {
 	_FARM = new ethers.Contract(FARM, LPABI,signer);
-	_oamt = $("unstake-amt").value;
-	if(!isFinite(_oamt)){notice(`Invalid ${WRAP_NAME} amount!`); return;}
-	_oamt = BigInt(Math.floor(_oamt * 1e18))
 
 	al = await Promise.all([
 		_FARM.balanceOf(window.ethereum.selectedAddress)
 	]);
+
+	_oamt = null;
+
+	if(ismax) {
+		_oamt = al[0];
+	}
+	else {
+		_oamt = $("unstake-amt").value;
+		if(!isFinite(_oamt)){notice(`Invalid ${WRAP_NAME} amount!`); return;}
+		_oamt = BigInt(Math.floor(_oamt * 1e18));
+	}
 
 	if(Number(_oamt)>Number(al[1])) {notice(`<h2>Insufficient Staked Balance!</h2><h3>Desired Amount:</h3>${Number(_oamt)/1e18}<br><h3>Actual Staked Balance:</h3>${al[1]/1e18}<br><br><b>Please reduce the amount and retry again, or Stake some more ${WRAP_NAME}.`); return}
 
