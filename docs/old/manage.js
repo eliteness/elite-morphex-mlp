@@ -188,7 +188,7 @@ async function dexstats() {
 
 	$("tvl-usd").innerHTML = `
 		<i>
-			Current Supply: <b>${(Number(_ds[1])/1e18).toLocaleString(undefined,{maximumFractionDigits:0})}</b> <img src="https://ftm.guru/icons/eliteMorphexMLP.png" style="width:20px;vertical-align:middle"/>
+			Current Supply: <b>${(Number(_ds[1])/1e18).toLocaleString(undefined,{maximumFractionDigits:0})}</b> <img src="https://ftm1337.eliteness.network/icons/eliteMorphexMLP.png" style="width:20px;vertical-align:middle"/>
 			<br>
 			Market Cap: $<b>${(Number(_ds[1])/1e18*Number(_ds[2])/1e18).toLocaleString(undefined,{maximumFractionDigits:2})}</b>
 			<br>
